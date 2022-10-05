@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue Mastery</title>
+
+  <link rel="stylesheet" href="./assets/styles.css">
+  <script src="https://unpkg.com/vue@3.0.0-beta.12/dist/vue.global.js "></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+  <div id="app">
+    <div class="nav-bar"></div>
+    <!-- <div class="cart">Cart({{ cart.length }})</div> -->
+    <product-display :premium="premium" @add-to-card="updateCart" @remove-in-card="updateCart"></product-display>
+  </div>
+  <!-- Import App -->
+  <script src="./main.js"></script>
+
+
+  <!-- Import Components -->
+  <!-- <script src="./components/ProductDisplay.js"></script>
+  <script src="./components/ReviewForm.js"></script>
+  <script src="./components/ReviewList.js"></script>
+   -->
+
+  <!-- Mount App -->
+  <script>
+    const mountApp = app.mount('#app')
+
+  </script>
+
+
+  <!-- Button Neon Start -->
+  <!-- <a href="">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    Neon Button
+  </a> -->
+  <!-- Button Neon End -->
+
+
+  <!-- Cup Tea Start -->
+  <!-- <div class="container">
+    <div class="plate"></div>
+    <div class="cup">
+      <div class="top">
+        <div class="vapour">
+          <span style="--i:1;"></span>
+          <span style="--i:3;"></span>
+          <span style="--i:16;"></span>
+          <span style="--i:5;"></span>
+          <span style="--i:13;"></span>
+          <span style="--i:20;"></span>
+          <span style="--i:6;"></span>
+          <span style="--i:7;"></span>
+          <span style="--i:10;"></span>
+          <span style="--i:8;"></span>
+          <span style="--i:17;"></span>
+          <span style="--i:11;"></span>
+          <span style="--i:12;"></span>
+          <span style="--i:14;"></span>
+          <span style="--i:2;"></span>
+          <span style="--i:9;"></span>
+          <span style="--i:15;"></span>
+          <span style="--i:4;"></span>
+          <span style="--i:19;"></span>
+        </div>
+        <div class="circle">
+          <div class="tea">
+
+          </div>
+        </div>
+      </div>
+      <div class="handle"></div>
+    </div>
+  </div> -->
+  <!-- Cup Tea End -->
+
+
+  <!--  Loader Waterfall Start -->
+  <!-- <div class="loader">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div> -->
+  <!-- Loader Waterfall End -->
+
+
+
+  <!-- Loader Start -->
+  <!-- <section>
+    <div class="loader">
+      <span style="--i:1;"></span>
+      <span style="--i:2;"></span>
+      <span style="--i:3;"></span>
+      <span style="--i:4;"></span>
+      <span style="--i:5;"></span>
+      <span style="--i:6;"></span>
+      <span style="--i:7;"></span>
+      <span style="--i:8;"></span>
+      <span style="--i:9;"></span>
+      <span style="--i:10;"></span>
+      <span style="--i:11;"></span>
+      <span style="--i:12;"></span>
+      <span style="--i:13;"></span>
+      <span style="--i:14;"></span>
+      <span style="--i:15;"></span>
+      <span style="--i:16;"></span>
+      <span style="--i:17;"></span>
+      <span style="--i:18;"></span>
+      <span style="--i:19;"></span>
+      <span style="--i:20;"></span>
+    </div>
+  </section> -->
+  <!-- Loader End -->
+
+
+  <!-- Sky Star Start -->
+  <!-- <div class="container">
+    <div class="bubbles">
+      <span style="--i:11;"></span>
+      <span style="--i:12;"></span>
+      <span style="--i:24;"></span>
+      <span style="--i:10;"></span>
+      <span style="--i:14;"></span>
+      <span style="--i:23;"></span>
+      <span style="--i:11;"></span>
+      <span style="--i:18;"></span>
+      <span style="--i:16;"></span>
+      <span style="--i:19;"></span>
+      <span style="--i:20;"></span>
+      <span style="--i:22;"></span>
+      <span style="--i:25;"></span>
+      <span style="--i:18;"></span>
+      <span style="--i:21;"></span>
+      <span style="--i:15;"></span>
+      <span style="--i:13;"></span>
+      <span style="--i:26;"></span>
+      <span style="--i:17;"></span>
+      <span style="--i:13;"></span>
+      <span style="--i:28;"></span>
+      <span style="--i:11;"></span>
+      <span style="--i:12;"></span>
+      <span style="--i:24;"></span>
+      <span style="--i:10;"></span>
+      <span style="--i:14;"></span>
+      <span style="--i:23;"></span>
+      <span style="--i:11;"></span>
+      <span style="--i:18;"></span>
+      <span style="--i:16;"></span>
+      <span style="--i:19;"></span>
+      <span style="--i:20;"></span>
+      <span style="--i:22;"></span>
+      <span style="--i:25;"></span>
+      <span style="--i:18;"></span>
+      <span style="--i:21;"></span>
+      <span style="--i:15;"></span>
+      <span style="--i:13;"></span>
+      <span style="--i:26;"></span>
+      <span style="--i:17;"></span>
+      <span style="--i:13;"></span>
+      <span style="--i:28;"></span>
+      <span style="--i:21;"></span>
+      <span style="--i:15;"></span>
+      <span style="--i:13;"></span>
+      <span style="--i:26;"></span>
+      <span style="--i:17;"></span>
+      <span style="--i:13;"></span>
+      <span style="--i:28;"></span>
+      <span style="--i:17;"></span>
+    </div>
+  </div> -->
+  <!-- Sky Star End -->
+
+
+
+  <!-- 3D Start -->
+  <!-- <section>
+      <div class="pattern">
+        <div class="face face1"></div>
+        <div class="face face2"></div>
+      </div>
+    </section> -->
+  <!-- 3D End -->
+
+
+  <!-- Text fly Start -->
+  <!-- <section>
+      <p class="text">Disclaimer video is for educational purpose only. Copyright Disclaimer Under Section 107 of the Copyright Act 1976, allowance is made for "fair use" for purposes such as criticism, comment, news reporting, teaching, scholarship, and research. Fair use is a use permitted by copyright statute that might otherwise be infringing. Non-profit, educational or personal use tips the balance in favor of fair use</p>
+    </section> -->
+  <!-- Text fly End -->
+
+
+
+  <!-- <section>
+    <div class="block-1 row">
+      <div class="content-img col-5">
+        <img src="./assets/images/socks_blue.jpg" alt="" height="40" width="40">
+      </div>
+      <div class="content-text col-7">
+        <p class="text">Disclaimer</p>
+      </div>
+    </div>
+  </section> -->
+
+  <section>
+    <div class="page-demo">
+      <div class="sidebar">
+        <div class="sidebar-item" id="item-1">
+          <div class="item-content">
+            <span class="m-0">1</span>
+          </div>
+        </div>
+        <div class="sidebar-item" id="item-2">
+          <div class="item-content">
+            <span class="m-0">2</span>
+          </div>
+        </div>
+        <div class="sidebar-item" id="item-3">
+          <div class="item-content">
+            <span class="m-0">3</span>
+          </div>
+        </div>
+        <div class="sidebar-item" id="item-4">
+          <div class="item-content">
+            <span class="m-0">4</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="main-content">
+        <button id="button" style="z-index:999">button</button>
+        <div id="parent">
+          <div id="child-1" class="child" index="1">
+            <div class="image">
+              <div class="src-img"></div>
+            </div>
+            <div class="text">
+              <p>5 PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS
+                PROPERTIESCSS PROPERTIESCSS PROPERTIES</p>
+            </div>
+          </div>
+          <div id="child-2" class="child" index="2">
+            <div class="image">
+              <div class="src-img"></div>
+            </div>
+            <div class="text">
+              <p>5 PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS
+                PROPERTIESCSS PROPERTIESCSS PROPERTIES</p>
+            </div>
+          </div>
+          <div id="child-3" class="child" index="3">
+            <div class="image">
+              <div class="src-img"></div>
+            </div>
+            <div class="text">
+              <p>5 PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS
+                PROPERTIESCSS PROPERTIESCSS PROPERTIES</p>
+            </div>
+          </div>
+          <div id="child-4" class="child" index="4">
+            <div class="image">
+              <div class="src-img"></div>
+            </div>
+            <div class="text">
+              <p>5 PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS
+                PROPERTIESCSS PROPERTIESCSS PROPERTIES</p>
+            </div>
+          </div>
+          <div id="child-5" class="child" index="5">
+            <div class="image">
+              <div class="src-img"></div>
+            </div>
+            <div class="text">
+              <p>5 PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS
+                PROPERTIESCSS PROPERTIESCSS PROPERTIES</p>
+            </div>
+          </div>
+          <div id="child-6" class="child" index="6">
+            <div class="image">
+              <div class="src-img"></div>
+            </div>
+            <div class="text">
+              <p>5 PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS
+                PROPERTIESCSS PROPERTIESCSS PROPERTIES</p>
+            </div>
+          </div>
+          <div id="child-7" class="child" index="7">
+            <div class="image">
+              <div class="src-img"></div>
+            </div>
+            <div class="text">
+              <p>5 PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS
+                PROPERTIESCSS PROPERTIESCSS PROPERTIES</p>
+            </div>
+          </div>
+          <div id="child-8" class="child" index="8">
+            <div class="image">
+              <div class="src-img"></div>
+            </div>
+            <div class="text">
+              <p>5 PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS
+                PROPERTIESCSS PROPERTIESCSS PROPERTIES</p>
+            </div>
+          </div>
+          <div id="child-9" class="child" index="9">
+            <div class="image">
+              <div class="src-img"></div>
+            </div>
+            <div class="text">
+              <p>5 PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS
+                PROPERTIESCSS PROPERTIESCSS PROPERTIES</p>
+            </div>
+          </div>
+          <div id="child-10" class="child" index="10">
+            <div class="image">
+              <div class="src-img"></div>
+            </div>
+            <div class="text">
+              <p>5 PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS
+                PROPERTIESCSS PROPERTIESCSS PROPERTIES</p>
+            </div>
+          </div>
+          <div id="child-11" class="child" index="11">
+            <div class="image">
+              <div class="src-img"></div>
+            </div>
+            <div class="text">
+              <p>5 PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS
+                PROPERTIESCSS PROPERTIESCSS PROPERTIES</p>
+            </div>
+          </div>
+          <div id="child-12" class="child" index="12">
+            <div class="image">
+              <div class="src-img"></div>
+            </div>
+            <div class="text">
+              <p>5 PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS PROPERTIESCSS
+                PROPERTIESCSS PROPERTIESCSS PROPERTIES</p>
+            </div>
+          </div>
+        </div>
+
+
+
+
+      </div>
+    </div>
+  </section>
+
+
+  <script src="./assets/"></script>
+  <script src="./index.js"></script>
+
+</body>
+
+</html>
