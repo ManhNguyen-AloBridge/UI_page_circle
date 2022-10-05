@@ -775,17 +775,22 @@ html {
   height: 100vh;
 }
 
-.content-circle{
+.content-circle {
   position: absolute;
 }
 
-#circle-bg{
-  /* position: relative; */
-  position: absolute;
+#parent, #circle-bg {
   width: 110rem;
   height: 110rem;
-    /* width: 94vw;
+}
+
+#circle-bg {
+  /* position: relative; */
+  /* position: absolute; */
+  /* width: 94vw;
     height: 94vw; */
+  /* width: 110rem;
+  height: 110rem; */
   /* border: 1px solid rgba(0, 0, 0, 0.1); */
   border-radius: 50%;
   transform: rotate(0deg);
@@ -794,17 +799,18 @@ html {
   z-index: 2;
 }
 
-#parent{
+#parent {
   /* position: relative; */
   position: absolute;
-  width: 110rem;
-  height: 110rem;
-    /* width: 94vw;
+  /* width: 110rem;
+  height: 110rem; */
+  /* width: 94vw;
     height: 94vw; */
   border: 1px solid rgb(58, 58, 58);
   border-radius: 50%;
   transform: rotate(0deg);
-  right: -30rem;
+  /* right: calc(-100% + 74vw); */
+  left: 37rem;
   z-index: 3;
   transition: transform 0.7s linear;
   transition-timing-function: cubic-bezier(0, 0.1, 0.1, 0.1);
@@ -823,7 +829,7 @@ html {
   transition: transform 0.7s linear;
 }
 
-#circle-bg .child{
+#circle-bg .child {
   position: absolute;
   /* border: solid 1px blue; */
   /* width: 34rem; */
@@ -847,10 +853,10 @@ html {
 #circle-bg .child .bg-item {
   content: "";
   opacity: 0.2;
-  width: 125%;
+  width: 120%;
   height: 75vh;
   position: absolute;
-  margin-left: -35rem;
+  /* margin-left: -35rem; */
   opacity: 0.2;
   filter: blur(3px);
   border-radius: 3.5rem;
@@ -1018,6 +1024,7 @@ html {
   justify-content: flex-end;
   display: flex;
   width: 100%;
+  z-index: -1;
 }
 
 #parent .child .content-right .store-name h1 {
@@ -1076,7 +1083,8 @@ html {
 #parent .child .bg-image {
   left: -8.3rem;
   position: absolute;
-  top: 12.5rem;
+  /* top: 12.5rem; */
+  top: 10rem;
   z-index: -1;
 }
 

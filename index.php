@@ -46,7 +46,7 @@ $data = [
 
   <section>
     <div class="page-demo">
-      <div class="header row">
+      <div class="header row m-0">
         <div class="header-left col-6">
           <div class="logo">
             <div>
@@ -127,8 +127,6 @@ $data = [
                                                                                       }
 
                                                                                       ?>">
-                <!-- <div class="bg-item"></div> -->
-                <!-- <div class="border-item"></div> -->
                 <div class="content-left">
                   <p></p>
                 </div>

@@ -173,6 +173,8 @@ $(window).bind("mousewheel DOMMouseScroll", function (event) {
   }
 });
 
+console.log($("#parent"));
+
 $(window).resize(function () {
   windowWidth = $(window).width();
 
@@ -182,7 +184,11 @@ $(window).resize(function () {
     degCorner = 30;
   }
 
-  console.log(windowWidth);
+  // $("#parent").attr(
+  //   "style",
+  //   `right: calc(-100% + ${(windowWidth / 100) * 74}px)`
+  // );
+
   generateCircleContent(windowWidth);
 });
 
