@@ -112,78 +112,13 @@ $data = [
       <div class="content w-100">
         <div class="main-content">
 
-          <div id="parent">
-            <?php
-            $i = 1;
-            while ($i <= 12) {
-            ?>
-              <div id="child-<?= $i ?>" class="child" index="<?= $i ?>" index-data=" <?php
-                                                                                      if ($i <= 3) {
-                                                                                        echo $i;
-                                                                                      }
+          <div id="content-landing-page">
+            <div id="parent">
+            </div>
 
-                                                                                      if (10 <= $i && $i <= 12) {
-                                                                                        echo (12 - $i) == 0 ? count($data) : count($data) - (12 - $i);
-                                                                                      }
-
-                                                                                      ?>">
-                <div class="content-left">
-                  <p></p>
-                </div>
-                <div class="d-flex content-right">
-                  <div class="image">
-                    <div class="bg-image">
-                      <div class="circle"></div>
-                      <div class="child-circle"></div>
-                      <div class="left"></div>
-                      <div class="right"></div>
-                    </div>
-                    <img src="" class="src-img" alt="">
-                  </div>
-                  <div class="content-right-detail">
-                    <div class="title">
-                      <p></p>
-                    </div>
-                    <div class="describe-title">
-                      <p></p>
-                    </div>
-                    <div class="describe">
-                      <p></p>
-                    </div>
-
-                    <div class="area-btn-detail">
-                      <button class="btn-detail-info"><span class="content-btn"></span> <span class="special-icon">›</span></button>
-                      <p class="sub-btn m-0"></p>
-                    </div>
-                    <div class="btns-action">
-                      <button class="btn-prev"><span class="special-icon">‹</span></button>
-                      <button class="btn-next"><span class="special-icon">›</span></button>
-                    </div>
-                  </div>
-                  <div class="store-name">
-                    <h1></h1>
-                  </div>
-                </div>
+            <div class="content-circle">
+              <div id="circle-bg">
               </div>
-            <?php
-              $i++;
-            }
-            ?>
-          </div>
-
-          <div class="content-circle">
-            <div id="circle-bg">
-              <?php
-              $i = 1;
-              while ($i <= 12) {
-              ?>
-                <div id="child-bg-<?= $i ?>" class="child" index="<?= $i ?>">
-                  <div class="bg-item"> </div>
-                </div>
-              <?php
-                $i++;
-              }
-              ?>
             </div>
           </div>
         </div>

@@ -37,19 +37,25 @@
 const rotateDeg = 40;
 let defaultIndex = 3;
 let currentAngle = 0;
-let degCorner = 30;
+let degCorner = 0;
+let oldDegCorner = 0;
 let mainItem = 1;
 let isLoading = false;
 let defaultStatus = false;
 let windowWidth = $(window).width();
+let itemDisplay = 0;
 
-if (windowWidth < 768) {
+if (windowWidth < 992) {
   degCorner = 45;
-  console.log(45);
+  itemDisplay = 8;
 } else {
   degCorner = 30;
-  console.log(30);
+  itemDisplay = 12;
 }
+
+console.log("windowWidth " + windowWidth);
+console.log("degCorner " + degCorner);
+console.log("itemDisplay " + itemDisplay);
 
 const countItemOnCircle = 360 / degCorner;
 
@@ -57,7 +63,7 @@ const data = [
   {
     img: "./assets/images/socks_blue.jpg",
     content: {
-      title: "だけじゃない!やまと蜂蜜。",
+      title: ["だけじゃない!", "やまと蜂蜜。"],
       describe_title:
         "ポーション・ボトル・パックへ の O E M 商品 企 画・製 造 。",
       describe:
@@ -66,13 +72,12 @@ const data = [
     content_left: "てんてきの糖だけじゃない",
     bg_color: "linear-gradient(to bottom right, blue, yellow)",
     text_btn: "OEM・PB 商品の企画製造につい",
-    sub_btn: "お問い合わせページへ",
     store_name: "YAMATO HONEY",
   },
   {
     img: "./assets/images/socks_green.jpg",
     content: {
-      title: "だけじゃない!やまと蜂蜜。",
+      title: ["だけじゃない!", "やまと蜂蜜。"],
       describe_title: "海外企業に対する液体商品充填業務。",
       describe:
         "これはダミーです。最終はここに適切なコピーが入ります。これはダミーです。最終はここに適切なコピーが入ります。これはダミーです。最終はここに適切なコピーが入ります。これはダミーです。",
@@ -80,13 +85,12 @@ const data = [
     content_left: "2てんてきの糖だけじゃない",
     bg_color: "linear-gradient(to bottom right, green, pink)",
     text_btn: "海外のお客様へ",
-    sub_btn: "海外向けサイトへリンク",
     store_name: "YAMATO HONEY",
   },
   {
     img: "./assets/images/socks_blue.jpg",
     content: {
-      title: "だけじゃない!やまと蜂蜜。",
+      title: ["だけじゃない!", "やまと蜂蜜。"],
       describe_title: "やまと蜂蜜の将来を担う若手社員を積極採用。",
       describe:
         "これはダミーです。最終はここに適切なコピーが入ります。これはダミーです。最終はここに適切なコピーが入ります。これはダミーです。最終はここに適切なコピーが入ります。これはダミーです。",
@@ -94,13 +98,12 @@ const data = [
     content_left: "3てんてきの糖だけじゃない",
     bg_color: "linear-gradient(to bottom right, purple, orange)",
     text_btn: "採用サイトを見る",
-    sub_btn: "求人サイトへリンク",
     store_name: "YAMATO HONEY",
   },
   {
     img: "./assets/images/socks_green.jpg",
     content: {
-      title: "だけじゃない!やまと蜂蜜。",
+      title: ["だけじゃない!", "やまと蜂蜜。"],
       describe_title: "70年余の歴史を守る、堅実な経営体制。",
       describe:
         "これはダミーです。最終はここに適切なコピーが入ります。これはダミーです。最終はここに適切なコピーが入ります。これはダミーです。最終はここに適切なコピーが入ります。これはダミーです。",
@@ -108,13 +111,12 @@ const data = [
     content_left: "4てんてきの糖だけじゃない",
     bg_color: "linear-gradient(to bottom right, gray, red)",
     text_btn: "会社概要を見る",
-    sub_btn: "会社概要ページへリンク",
     store_name: "YAMATO HONEY",
   },
   {
     img: "./assets/images/socks_blue.jpg",
     content: {
-      title: "だけじゃない!やまと蜂蜜。",
+      title: ["だけじゃない!", "やまと蜂蜜。"],
       describe_title: "接遇品質にこだわったお客様への丁寧な対応。",
       describe:
         "これはダミーです。最終はここに適切なコピーが入ります。これはダミーです。最終はここに適切なコピーが入ります。これはダミーです。最終はここに適切なコピーが入ります。これはダミーです。",
@@ -122,7 +124,6 @@ const data = [
     content_left: "5てんてきの糖だけじゃない",
     bg_color: "linear-gradient(to bottom right, red, green)",
     text_btn: "お問い合わせページを見る",
-    sub_btn: "お問い合わせページへ",
     store_name: "YAMATO HONEY",
   },
 ];
@@ -132,8 +133,6 @@ $(window).bind("mousewheel DOMMouseScroll", function (event) {
     return;
   }
 
-  console.log(333);
-
   isLoading = true;
   if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
     console.log("Scroll up");
@@ -141,11 +140,11 @@ $(window).bind("mousewheel DOMMouseScroll", function (event) {
     setTimeout(() => {
       console.log("old-mainItem " + mainItem);
       handleRemoveClassForOldItemSelected();
-      mainItem = mainItem >= 12 ? 1 : ++mainItem;
+      mainItem = mainItem >= itemDisplay ? 1 : ++mainItem;
       console.log("new-mainItem " + mainItem);
       handleAddClassForCurrentItemSelected();
 
-      const degCorner = 30;
+      // const degCorner = 30;
       handleRotation(degCorner, true);
 
       setTimeout(() => {
@@ -159,12 +158,12 @@ $(window).bind("mousewheel DOMMouseScroll", function (event) {
     setTimeout(() => {
       console.log("old-mainItem " + mainItem);
       handleRemoveClassForOldItemSelected();
-      mainItem = mainItem < 2 ? 12 : --mainItem;
+      mainItem = mainItem < 2 ? itemDisplay : --mainItem;
       console.log("new-mainItem " + mainItem);
       handleAddClassForCurrentItemSelected();
 
-      const degCorner = -30;
-      handleRotation(degCorner, false);
+      // const degCorner = -30;
+      handleRotation(-1 * degCorner, false);
 
       setTimeout(() => {
         isLoading = false;
@@ -177,18 +176,43 @@ console.log($("#parent"));
 
 $(window).resize(function () {
   windowWidth = $(window).width();
+  console.log("windowWidth " + windowWidth);
 
-  if (windowWidth < 768) {
+  if (windowWidth < 992) {
+    console.log(7777);
+    let isGenerate = false;
+
+    console.log("oldDegCorner " + oldDegCorner);
+    console.log("degCorner " + degCorner);
     degCorner = 45;
+    if (oldDegCorner != degCorner) {
+      isGenerate = true;
+      oldDegCorner = degCorner;
+    }
+    itemDisplay = 8;
+
+    if (isGenerate) {
+      removeContentChild();
+      generateContent();
+    }
   } else {
+    console.log(8888);
+    console.log("oldDegCorner " + oldDegCorner);
+    console.log("degCorner " + degCorner);
+    let isGenerate = false;
     degCorner = 30;
+    if (oldDegCorner != degCorner) {
+      isGenerate = true;
+      oldDegCorner = degCorner;
+    }
+    itemDisplay = 12;
+    if (isGenerate) {
+      removeContentChild();
+      generateContent();
+    }
   }
 
-  // $("#parent").attr(
-  //   "style",
-  //   `right: calc(-100% + ${(windowWidth / 100) * 74}px)`
-  // );
-
+  console.log(degCorner);
   generateCircleContent(windowWidth);
 });
 
@@ -198,7 +222,6 @@ $(".btn-prev").on("click", function () {
   }
 
   isLoading = true;
-  console.log("isLoading" + isLoading);
   handlePrevItem(isLoading);
 });
 
@@ -208,7 +231,6 @@ $(".btn-next").on("click", function () {
   }
 
   isLoading = true;
-  console.log("isLoading" + isLoading);
   handleNextItem(isLoading);
 });
 
@@ -218,15 +240,11 @@ $(".sidebar-item").on("click", function () {
   }
 
   isLoading = true;
-  console.log("isLoading" + isLoading);
 
   setTimeout(() => {
     const indexItemSelect = $(this).attr("sidebar-index").replace("item-", "");
     const step = indexItemSelect - mainItem;
     let isScrollUp = false;
-
-    console.log("mainItem: " + mainItem);
-    console.log("step: " + step);
 
     if (step > 0) {
       isScrollUp = true;
@@ -239,8 +257,8 @@ $(".sidebar-item").on("click", function () {
     mainItem = indexItemSelect;
     handleAddClassForCurrentItemSelected();
 
-    const degCorner = 30 * step;
-    handleRotation(degCorner);
+    // const degCorner = 30 * step;
+    handleRotation(degCorner * step);
 
     setTimeout(() => {
       isLoading = false;
@@ -248,18 +266,79 @@ $(".sidebar-item").on("click", function () {
   }, 300);
 });
 
+function handleHtmlCircleContent() {
+  let dataHtmlContent = "";
+  for (let i = 1; i <= itemDisplay; i++) {
+    dataHtmlContent += `
+    <div id="child-${i}" class="child" index="${i}">
+                  <div class="content-left">
+                    <p></p>
+                  </div>
+                  <div class="d-flex content-right">
+                    <div class="image">
+                      <div class="bg-image">
+                        <div class="circle"></div>
+                        <div class="child-circle"></div>
+                        <div class="left"></div>
+                        <div class="right"></div>
+                      </div>
+                      <img src="" class="src-img" alt="">
+                    </div>
+                    <div class="content-right-detail">
+                      <div class="title">
+                        <p></p>
+                      </div>
+                      <div class="describe-title">
+                        <p></p>
+                      </div>
+                      <div class="describe">
+                        <p></p>
+                      </div>
+
+                      <div class="area-btn-detail">
+                        <button class="btn-detail-info"><span class="content-btn"></span> <span class="special-icon">›</span></button>
+                      </div>
+                      <div class="btns-action">
+                        <button class="btn-prev"><span class="special-icon">‹</span></button>
+                        <button class="btn-next"><span class="special-icon">›</span></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+    `;
+  }
+
+  return dataHtmlContent;
+}
+
+function handleHtmlCircleBackground() {
+  let dataHtmlBackground = "";
+  for (let i = 1; i <= itemDisplay; i++) {
+    dataHtmlBackground += `
+      <div id="child-bg-${i}" class="child" index="${i}">
+        <div class="bg-item">
+          <div class="store-name">
+            <p class="m-0"></p>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  return dataHtmlBackground;
+}
+
 function handleNextItem() {
   console.log("Scroll up");
 
   setTimeout(() => {
     handleRemoveClassForOldItemSelected();
-    mainItem = mainItem >= 12 ? 1 : ++mainItem;
+    mainItem = mainItem >= itemDisplay ? 1 : ++mainItem;
     handleAddClassForCurrentItemSelected();
 
-    const degCorner = 30;
     handleRotation(degCorner, true);
 
-    setTimeout(() => {
+    -setTimeout(() => {
       isLoading = false;
     }, 1000);
   }, 300);
@@ -270,11 +349,10 @@ function handlePrevItem() {
 
   setTimeout(() => {
     handleRemoveClassForOldItemSelected();
-    mainItem = mainItem < 2 ? 12 : --mainItem;
+    mainItem = mainItem < 2 ? itemDisplay : --mainItem;
     handleAddClassForCurrentItemSelected();
 
-    const degCorner = -30;
-    handleRotation(degCorner, false);
+    handleRotation(-1 * degCorner, false);
 
     setTimeout(() => {
       isLoading = false;
@@ -285,8 +363,6 @@ function handlePrevItem() {
 function handleRemoveClassForOldItemSelected() {
   $(`div[index=${mainItem}]`).removeClass("active");
 
-  console.log(1111);
-
   $(
     `div[sidebar-index=item-${
       mainItem % data.length == 0 ? data.length : mainItem % data.length
@@ -296,9 +372,6 @@ function handleRemoveClassForOldItemSelected() {
 
 function handleAddClassForCurrentItemSelected() {
   $(`div[index=${mainItem}]`).addClass("active");
-  console.log(mainItem);
-  console.log(mainItem % data.length);
-  console.log(222);
   $(
     `div[sidebar-index=item-${
       mainItem % data.length == 0 ? data.length : mainItem % data.length
@@ -315,8 +388,6 @@ function handleContentTextLeft(index) {
     })
   );
 }
-
-$(`div[index=${mainItem}]`).addClass("active");
 
 function handleRotation(degCorner, isScrollUp) {
   currentAngle += degCorner;
@@ -339,7 +410,8 @@ function handleRotation(degCorner, isScrollUp) {
   }
 }
 
-function generateData(data) {
+async function generateData(data) {
+  $(`div[index=${mainItem}]`).addClass("active");
   $(
     `div[sidebar-index=item-${
       mainItem % data.length == 0 ? data.length : mainItem % data.length
@@ -350,12 +422,20 @@ function generateData(data) {
     $(this)
       .find(".bg-item")
       .css({ background: `${data[index % data.length].bg_color}` });
+    $(this)
+      .find(".bg-item .store-name p")
+      .text(data[index % data.length].store_name);
   });
 
   $("#parent .child").each(function (index, value) {
-    $(this)
-      .find(".content-right-detail .title p")
-      .text(data[index % data.length].content.title);
+    let title = "";
+
+    data[index % data.length].content.title.forEach(function (value, i) {
+      title += `<p>${value}</p>`;
+    });
+
+    $(this).find(".content-right-detail .title").append(title);
+
     $(this)
       .find(".content-right-detail .describe-title p")
       .text(data[index % data.length].content.describe_title);
@@ -374,9 +454,6 @@ function generateData(data) {
     $(this)
       .find(".content-right-detail .area-btn-detail .sub-btn")
       .text(data[index % data.length].sub_btn);
-    $(this)
-      .find(".content-right .store-name h1")
-      .text(data[index % data.length].store_name);
 
     const degCircle =
       degCorner * -1 - currentAngle + degCorner - index * degCorner;
@@ -385,401 +462,363 @@ function generateData(data) {
   });
 }
 
-generateData(data);
-
 function generateCircleContent(windowWidth) {
-  // if (windowWidth > 768) {
-  $("#parent .child").each(function (index, item) {
-    const R = $("#parent").css("width").slice(0, -2) / 16 / 2;
-    const heightSubChildItem =
-      $($("#parent .child:not(.active)")[0]).css("height").slice(0, -2) / 16;
+  if (windowWidth >= 992) {
+    $("#parent .child").each(function (index, item) {
+      const R = $("#parent").css("width").slice(0, -2) / 16 / 2;
+      const heightSubChildItem =
+        $($("#parent .child:not(.active)")[0]).css("height").slice(0, -2) / 16;
+      if (index == 0) {
+        const heightItemDefault =
+          $("#parent .child.active").css("height").slice(0, -2) / 16;
+        $(item).css({
+          left: 0,
+          top: `${R - heightItemDefault / 2}rem`,
+        });
+      }
+      if (index == 1) {
+        $(item).css({
+          left: `${R - Math.cos(Math.PI / 6) * R}rem`,
+          top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI / 6) * R}rem`,
+        });
+      }
+      if (index == 2) {
+        $(item).css({
+          left: `${R - Math.cos(Math.PI / 3) * R}rem`,
+          top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI / 3) * R}rem`,
+        });
+      }
+      if (index == 3) {
+        $(item).css({
+          left: `${R - Math.cos(Math.PI / 2) * R}rem`,
+          top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI / 2) * R}rem`,
+        });
+      }
+      if (index == 4) {
+        $(item).css({
+          left: `${R - Math.cos((2 * Math.PI) / 3) * R}rem`,
+          top: `${
+            R - heightSubChildItem / 2 + Math.sin((2 * Math.PI) / 3) * R
+          }rem`,
+        });
+      }
+      if (index == 5) {
+        $(item).css({
+          left: `${R - Math.cos((5 * Math.PI) / 6) * R}rem`,
+          top: `${
+            R - heightSubChildItem / 2 + Math.sin((5 * Math.PI) / 6) * R
+          }rem`,
+        });
+      }
+      if (index == 6) {
+        $(item).css({
+          left: `${R - Math.cos(Math.PI) * R}rem`,
+          top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI) * R}rem`,
+        });
+      }
+      if (index == 7) {
+        $(item).css({
+          left: `${R - Math.cos((7 * Math.PI) / 6) * R}rem`,
+          top: `${
+            R - heightSubChildItem / 2 + Math.sin((7 * Math.PI) / 6) * R
+          }rem`,
+        });
+      }
+      if (index == 8) {
+        $(item).css({
+          left: `${R - Math.cos((4 * Math.PI) / 3) * R}rem`,
+          top: `${
+            R - heightSubChildItem / 2 + Math.sin((4 * Math.PI) / 3) * R
+          }rem`,
+        });
+      }
+      if (index == 9) {
+        $(item).css({
+          left: `${R - Math.cos((3 * Math.PI) / 2) * R}rem`,
+          top: `${
+            R - heightSubChildItem / 2 + Math.sin((3 * Math.PI) / 2) * R
+          }rem`,
+        });
+      }
+      if (index == 10) {
+        $(item).css({
+          left: `${R - Math.cos((5 * Math.PI) / 3) * R}rem`,
+          top: `${
+            R - heightSubChildItem / 2 + Math.sin((5 * Math.PI) / 3) * R
+          }rem`,
+        });
+      }
+      if (index == 11) {
+        $(item).css({
+          left: `${R - Math.cos((11 * Math.PI) / 6) * R}rem`,
+          top: `${
+            R - heightSubChildItem / 2 + Math.sin((11 * Math.PI) / 6) * R
+          }rem`,
+        });
+      }
+    });
 
-    if (index == 0) {
-      const heightItemDefault =
-        $("#parent .child.active").css("height").slice(0, -2) / 16;
-      $(item).css({
-        left: 0,
-        top: `${R - heightItemDefault / 2}rem`,
-      });
-    }
+    $("#circle-bg .child").each(function (index, item) {
+      const R = $("#parent").css("width").slice(0, -2) / 16 / 2;
+      const heightSubChildItem =
+        $($("#circle-bg .child:not(.active)")[0]).css("height").slice(0, -2) /
+        16;
+      if (index == 0) {
+        const heightItemDefault =
+          $("#circle-bg .child.active").css("height").slice(0, -2) / 16;
+        $(item).css({
+          left: 0,
+          top: `${R - heightItemDefault / 2}rem`,
+        });
+      }
+      if (index == 1) {
+        $(item).css({
+          left: `${R - Math.cos(Math.PI / 6) * R}rem`,
+          top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI / 6) * R}rem`,
+        });
+      }
+      if (index == 2) {
+        $(item).css({
+          left: `${R - Math.cos(Math.PI / 3) * R}rem`,
+          top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI / 3) * R}rem`,
+        });
+      }
+      if (index == 3) {
+        $(item).css({
+          left: `${R - Math.cos(Math.PI / 2) * R}rem`,
+          top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI / 2) * R}rem`,
+        });
+      }
+      if (index == 4) {
+        $(item).css({
+          left: `${R - Math.cos((2 * Math.PI) / 3) * R}rem`,
+          top: `${
+            R - heightSubChildItem / 2 + Math.sin((2 * Math.PI) / 3) * R
+          }rem`,
+        });
+      }
+      if (index == 5) {
+        $(item).css({
+          left: `${R - Math.cos((5 * Math.PI) / 6) * R}rem`,
+          top: `${
+            R - heightSubChildItem / 2 + Math.sin((5 * Math.PI) / 6) * R
+          }rem`,
+        });
+      }
+      if (index == 6) {
+        $(item).css({
+          left: `${R - Math.cos(Math.PI) * R}rem`,
+          top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI) * R}rem`,
+        });
+      }
+      if (index == 7) {
+        $(item).css({
+          left: `${R - Math.cos((7 * Math.PI) / 6) * R}rem`,
+          top: `${
+            R - heightSubChildItem / 2 + Math.sin((7 * Math.PI) / 6) * R
+          }rem`,
+        });
+      }
+      if (index == 8) {
+        $(item).css({
+          left: `${R - Math.cos((4 * Math.PI) / 3) * R}rem`,
+          top: `${
+            R - heightSubChildItem / 2 + Math.sin((4 * Math.PI) / 3) * R
+          }rem`,
+        });
+      }
+      if (index == 9) {
+        $(item).css({
+          left: `${R - Math.cos((3 * Math.PI) / 2) * R}rem`,
+          top: `${
+            R - heightSubChildItem / 2 + Math.sin((3 * Math.PI) / 2) * R
+          }rem`,
+        });
+      }
+      if (index == 10) {
+        $(item).css({
+          left: `${R - Math.cos((5 * Math.PI) / 3) * R}rem`,
+          top: `${
+            R - heightSubChildItem / 2 + Math.sin((5 * Math.PI) / 3) * R
+          }rem`,
+        });
+      }
+      if (index == 11) {
+        $(item).css({
+          left: `${R - Math.cos((11 * Math.PI) / 6) * R}rem`,
+          top: `${
+            R - heightSubChildItem / 2 + Math.sin((11 * Math.PI) / 6) * R
+          }rem`,
+        });
+      }
+    });
+  } else {
+    $("#parent .child").each(function (index, item) {
+      const R = $("#parent").css("width").slice(0, -2) / 16 / 2;
+      const heightSubChildItem =
+        $($("#parent .child:not(.active)")[0]).css("height").slice(0, -2) / 16;
 
-    if (index == 1) {
-      $(item).css({
-        left: `${R - Math.cos(Math.PI / 6) * R}rem`,
-        top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI / 6) * R}rem`,
-      });
-    }
+      if (index == 0) {
+        console.log(222);
+        const heightItemDefault =
+          $("#parent .child.active").css("height").slice(0, -2) / 16;
+        $(item).css({
+          left: 0,
+          top: `${R - heightItemDefault / 2}rem`,
+        });
+      }
 
-    if (index == 2) {
-      $(item).css({
-        left: `${R - Math.cos(Math.PI / 3) * R}rem`,
-        top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI / 3) * R}rem`,
-      });
-    }
+      if (index == 1) {
+        $(item).css({
+          left: `${R - Math.cos(Math.PI / 4) * R}rem`,
+          top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI / 4) * R}rem`,
+        });
+      }
 
-    if (index == 3) {
-      $(item).css({
-        left: `${R - Math.cos(Math.PI / 2) * R}rem`,
-        top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI / 2) * R}rem`,
-      });
-    }
+      if (index == 2) {
+        $(item).css({
+          left: `${R - Math.cos(Math.PI / 2) * R}rem`,
+          top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI / 2) * R}rem`,
+        });
+      }
 
-    if (index == 4) {
-      $(item).css({
-        left: `${R - Math.cos((2 * Math.PI) / 3) * R}rem`,
-        top: `${
-          R - heightSubChildItem / 2 + Math.sin((2 * Math.PI) / 3) * R
-        }rem`,
-      });
-    }
+      if (index == 3) {
+        $(item).css({
+          left: `${R - Math.cos((3 * Math.PI) / 4) * R}rem`,
+          top: `${
+            R - heightSubChildItem / 2 + Math.sin((3 * Math.PI) / 4) * R
+          }rem`,
+        });
+      }
 
-    if (index == 5) {
-      $(item).css({
-        left: `${R - Math.cos((5 * Math.PI) / 6) * R}rem`,
-        top: `${
-          R - heightSubChildItem / 2 + Math.sin((5 * Math.PI) / 6) * R
-        }rem`,
-      });
-    }
+      if (index == 4) {
+        $(item).css({
+          left: `${R - Math.cos(Math.PI) * R}rem`,
+          top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI) * R}rem`,
+        });
+      }
 
-    if (index == 6) {
-      $(item).css({
-        left: `${R - Math.cos(Math.PI) * R}rem`,
-        top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI) * R}rem`,
-      });
-    }
+      if (index == 5) {
+        $(item).css({
+          left: `${R - Math.cos((5 * Math.PI) / 4) * R}rem`,
+          top: `${
+            R - heightSubChildItem / 2 + Math.sin((5 * Math.PI) / 4) * R
+          }rem`,
+        });
+      }
 
-    if (index == 7) {
-      $(item).css({
-        left: `${R - Math.cos((7 * Math.PI) / 6) * R}rem`,
-        top: `${
-          R - heightSubChildItem / 2 + Math.sin((7 * Math.PI) / 6) * R
-        }rem`,
-      });
-    }
+      if (index == 6) {
+        $(item).css({
+          left: `${R - Math.cos((3 * Math.PI) / 2) * R}rem`,
+          top: `${
+            R - heightSubChildItem / 2 + Math.sin((3 * Math.PI) / 2) * R
+          }rem`,
+        });
+      }
 
-    if (index == 8) {
-      $(item).css({
-        left: `${R - Math.cos((4 * Math.PI) / 3) * R}rem`,
-        top: `${
-          R - heightSubChildItem / 2 + Math.sin((4 * Math.PI) / 3) * R
-        }rem`,
-      });
-    }
+      if (index == 7) {
+        $(item).css({
+          left: `${R - Math.cos((7 * Math.PI) / 4) * R}rem`,
+          top: `${
+            R - heightSubChildItem / 2 + Math.sin((7 * Math.PI) / 4) * R
+          }rem`,
+        });
+      }
+    });
 
-    if (index == 9) {
-      $(item).css({
-        left: `${R - Math.cos((3 * Math.PI) / 2) * R}rem`,
-        top: `${
-          R - heightSubChildItem / 2 + Math.sin((3 * Math.PI) / 2) * R
-        }rem`,
-      });
-    }
+    $("#circle-bg .child").each(function (index, item) {
+      const R = $("#parent").css("width").slice(0, -2) / 16 / 2;
+      const heightSubChildItem =
+        $($("#circle-bg .child:not(.active)")[0]).css("height").slice(0, -2) /
+        16;
 
-    if (index == 10) {
-      $(item).css({
-        left: `${R - Math.cos((5 * Math.PI) / 3) * R}rem`,
-        top: `${
-          R - heightSubChildItem / 2 + Math.sin((5 * Math.PI) / 3) * R
-        }rem`,
-      });
-    }
+      if (index == 0) {
+        const heightItemDefault =
+          $("#circle-bg .child.active").css("height").slice(0, -2) / 16;
+        $(item).css({
+          left: 0,
+          top: `${R - heightItemDefault / 2}rem`,
+        });
+      }
 
-    if (index == 11) {
-      $(item).css({
-        left: `${R - Math.cos((11 * Math.PI) / 6) * R}rem`,
-        top: `${
-          R - heightSubChildItem / 2 + Math.sin((11 * Math.PI) / 6) * R
-        }rem`,
-      });
-    }
-  });
+      if (index == 1) {
+        $(item).css({
+          left: `${R - Math.cos(Math.PI / 4) * R}rem`,
+          top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI / 4) * R}rem`,
+        });
+      }
 
-  $("#circle-bg .child").each(function (index, item) {
-    const R = $("#parent").css("width").slice(0, -2) / 16 / 2;
-    const heightSubChildItem =
-      $($("#circle-bg .child:not(.active)")[0]).css("height").slice(0, -2) / 16;
+      if (index == 2) {
+        $(item).css({
+          left: `${R - Math.cos(Math.PI / 2) * R}rem`,
+          top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI / 2) * R}rem`,
+        });
+      }
 
-    if (index == 0) {
-      const heightItemDefault =
-        $("#circle-bg .child.active").css("height").slice(0, -2) / 16;
-      $(item).css({
-        left: 0,
-        top: `${R - heightItemDefault / 2}rem`,
-      });
-    }
+      if (index == 3) {
+        $(item).css({
+          left: `${R - Math.cos((3 * Math.PI) / 4) * R}rem`,
+          top: `${
+            R - heightSubChildItem / 2 + Math.sin((3 * Math.PI) / 4) * R
+          }rem`,
+        });
+      }
 
-    if (index == 1) {
-      $(item).css({
-        left: `${R - Math.cos(Math.PI / 6) * R}rem`,
-        top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI / 6) * R}rem`,
-      });
-    }
+      if (index == 4) {
+        $(item).css({
+          left: `${R - Math.cos(Math.PI) * R}rem`,
+          top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI) * R}rem`,
+        });
+      }
 
-    if (index == 2) {
-      $(item).css({
-        left: `${R - Math.cos(Math.PI / 3) * R}rem`,
-        top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI / 3) * R}rem`,
-      });
-    }
+      if (index == 5) {
+        $(item).css({
+          left: `${R - Math.cos((5 * Math.PI) / 4) * R}rem`,
+          top: `${
+            R - heightSubChildItem / 2 + Math.sin((5 * Math.PI) / 4) * R
+          }rem`,
+        });
+      }
 
-    if (index == 3) {
-      $(item).css({
-        left: `${R - Math.cos(Math.PI / 2) * R}rem`,
-        top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI / 2) * R}rem`,
-      });
-    }
+      if (index == 6) {
+        $(item).css({
+          left: `${R - Math.cos((3 * Math.PI) / 2) * R}rem`,
+          top: `${
+            R - heightSubChildItem / 2 + Math.sin((3 * Math.PI) / 2) * R
+          }rem`,
+        });
+      }
 
-    if (index == 4) {
-      $(item).css({
-        left: `${R - Math.cos((2 * Math.PI) / 3) * R}rem`,
-        top: `${
-          R - heightSubChildItem / 2 + Math.sin((2 * Math.PI) / 3) * R
-        }rem`,
-      });
-    }
-
-    if (index == 5) {
-      $(item).css({
-        left: `${R - Math.cos((5 * Math.PI) / 6) * R}rem`,
-        top: `${
-          R - heightSubChildItem / 2 + Math.sin((5 * Math.PI) / 6) * R
-        }rem`,
-      });
-    }
-
-    if (index == 6) {
-      $(item).css({
-        left: `${R - Math.cos(Math.PI) * R}rem`,
-        top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI) * R}rem`,
-      });
-    }
-
-    if (index == 7) {
-      $(item).css({
-        left: `${R - Math.cos((7 * Math.PI) / 6) * R}rem`,
-        top: `${
-          R - heightSubChildItem / 2 + Math.sin((7 * Math.PI) / 6) * R
-        }rem`,
-      });
-    }
-
-    if (index == 8) {
-      $(item).css({
-        left: `${R - Math.cos((4 * Math.PI) / 3) * R}rem`,
-        top: `${
-          R - heightSubChildItem / 2 + Math.sin((4 * Math.PI) / 3) * R
-        }rem`,
-      });
-    }
-
-    if (index == 9) {
-      $(item).css({
-        left: `${R - Math.cos((3 * Math.PI) / 2) * R}rem`,
-        top: `${
-          R - heightSubChildItem / 2 + Math.sin((3 * Math.PI) / 2) * R
-        }rem`,
-      });
-    }
-
-    if (index == 10) {
-      $(item).css({
-        left: `${R - Math.cos((5 * Math.PI) / 3) * R}rem`,
-        top: `${
-          R - heightSubChildItem / 2 + Math.sin((5 * Math.PI) / 3) * R
-        }rem`,
-      });
-    }
-
-    if (index == 11) {
-      $(item).css({
-        left: `${R - Math.cos((11 * Math.PI) / 6) * R}rem`,
-        top: `${
-          R - heightSubChildItem / 2 + Math.sin((11 * Math.PI) / 6) * R
-        }rem`,
-      });
-    }
-  });
-  // } else {
-  //   $("#parent .child").each(function (index, item) {
-  //     const R = $("#parent").css("width").slice(0, -2) / 16 / 2;
-  //     const heightSubChildItem =
-  //       $($("#parent .child:not(.active)")[0]).css("height").slice(0, -2) / 16;
-
-  //     if (index == 0) {
-  //       const heightItemDefault =
-  //         $("#parent .child.active").css("height").slice(0, -2) / 16;
-  //       $(item).css({
-  //         left: 0,
-  //         top: `${R - heightItemDefault / 2}rem`,
-  //       });
-  //     }
-
-  //     if (index == 1) {
-  //       $(item).css({
-  //         left: `${R - Math.cos(Math.PI / 6) * R}rem`,
-  //         top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI / 6) * R}rem`,
-  //       });
-  //     }
-
-  //     if (index == 2) {
-  //       $(item).css({
-  //         left: `${R - Math.cos(Math.PI / 3) * R}rem`,
-  //         top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI / 3) * R}rem`,
-  //       });
-  //     }
-
-  //     if (index == 3) {
-  //       $(item).css({
-  //         left: `${R - Math.cos(Math.PI / 2) * R}rem`,
-  //         top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI / 2) * R}rem`,
-  //       });
-  //     }
-
-  //     if (index == 4) {
-  //       $(item).css({
-  //         left: `${R - Math.cos((2 * Math.PI) / 3) * R}rem`,
-  //         top: `${
-  //           R - heightSubChildItem / 2 + Math.sin((2 * Math.PI) / 3) * R
-  //         }rem`,
-  //       });
-  //     }
-
-  //     if (index == 5) {
-  //       $(item).css({
-  //         left: `${R - Math.cos((5 * Math.PI) / 6) * R}rem`,
-  //         top: `${
-  //           R - heightSubChildItem / 2 + Math.sin((5 * Math.PI) / 6) * R
-  //         }rem`,
-  //       });
-  //     }
-
-  //     if (index == 6) {
-  //       $(item).css({
-  //         left: `${R - Math.cos(Math.PI) * R}rem`,
-  //         top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI) * R}rem`,
-  //       });
-  //     }
-
-  //     if (index == 7) {
-  //       $(item).css({
-  //         left: `${R - Math.cos((7 * Math.PI) / 6) * R}rem`,
-  //         top: `${
-  //           R - heightSubChildItem / 2 + Math.sin((7 * Math.PI) / 6) * R
-  //         }rem`,
-  //       });
-  //     }
-  //   });
-
-  //   $("#circle-bg .child").each(function (index, item) {
-  //     const R = $("#parent").css("width").slice(0, -2) / 16 / 2;
-  //     const heightSubChildItem =
-  //       $($("#circle-bg .child:not(.active)")[0]).css("height").slice(0, -2) /
-  //       16;
-
-  //     if (index == 0) {
-  //       const heightItemDefault =
-  //         $("#circle-bg .child.active").css("height").slice(0, -2) / 16;
-  //       $(item).css({
-  //         left: 0,
-  //         top: `${R - heightItemDefault / 2}rem`,
-  //       });
-  //     }
-
-  //     if (index == 1) {
-  //       $(item).css({
-  //         left: `${R - Math.cos(Math.PI / 6) * R}rem`,
-  //         top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI / 6) * R}rem`,
-  //       });
-  //     }
-
-  //     if (index == 2) {
-  //       $(item).css({
-  //         left: `${R - Math.cos(Math.PI / 3) * R}rem`,
-  //         top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI / 3) * R}rem`,
-  //       });
-  //     }
-
-  //     if (index == 3) {
-  //       $(item).css({
-  //         left: `${R - Math.cos(Math.PI / 2) * R}rem`,
-  //         top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI / 2) * R}rem`,
-  //       });
-  //     }
-
-  //     if (index == 4) {
-  //       $(item).css({
-  //         left: `${R - Math.cos((2 * Math.PI) / 3) * R}rem`,
-  //         top: `${
-  //           R - heightSubChildItem / 2 + Math.sin((2 * Math.PI) / 3) * R
-  //         }rem`,
-  //       });
-  //     }
-
-  //     if (index == 5) {
-  //       $(item).css({
-  //         left: `${R - Math.cos((5 * Math.PI) / 6) * R}rem`,
-  //         top: `${
-  //           R - heightSubChildItem / 2 + Math.sin((5 * Math.PI) / 6) * R
-  //         }rem`,
-  //       });
-  //     }
-
-  //     if (index == 6) {
-  //       $(item).css({
-  //         left: `${R - Math.cos(Math.PI) * R}rem`,
-  //         top: `${R - heightSubChildItem / 2 + Math.sin(Math.PI) * R}rem`,
-  //       });
-  //     }
-
-  //     if (index == 7) {
-  //       $(item).css({
-  //         left: `${R - Math.cos((7 * Math.PI) / 6) * R}rem`,
-  //         top: `${
-  //           R - heightSubChildItem / 2 + Math.sin((7 * Math.PI) / 6) * R
-  //         }rem`,
-  //       });
-  //     }
-
-  //     if (index == 8) {
-  //       $(item).css({
-  //         left: `${R - Math.cos((4 * Math.PI) / 3) * R}rem`,
-  //         top: `${
-  //           R - heightSubChildItem / 2 + Math.sin((4 * Math.PI) / 3) * R
-  //         }rem`,
-  //       });
-  //     }
-
-  //     if (index == 9) {
-  //       $(item).css({
-  //         left: `${R - Math.cos((3 * Math.PI) / 2) * R}rem`,
-  //         top: `${
-  //           R - heightSubChildItem / 2 + Math.sin((3 * Math.PI) / 2) * R
-  //         }rem`,
-  //       });
-  //     }
-
-  //     if (index == 10) {
-  //       $(item).css({
-  //         left: `${R - Math.cos((5 * Math.PI) / 3) * R}rem`,
-  //         top: `${
-  //           R - heightSubChildItem / 2 + Math.sin((5 * Math.PI) / 3) * R
-  //         }rem`,
-  //       });
-  //     }
-
-  //     if (index == 11) {
-  //       $(item).css({
-  //         left: `${R - Math.cos((11 * Math.PI) / 6) * R}rem`,
-  //         top: `${
-  //           R - heightSubChildItem / 2 + Math.sin((11 * Math.PI) / 6) * R
-  //         }rem`,
-  //       });
-  //     }
-  //   });
-  // }
+      if (index == 7) {
+        $(item).css({
+          left: `${R - Math.cos((7 * Math.PI) / 4) * R}rem`,
+          top: `${
+            R - heightSubChildItem / 2 + Math.sin((7 * Math.PI) / 4) * R
+          }rem`,
+        });
+      }
+    });
+  }
 }
 
-generateCircleContent();
+function removeContentChild() {
+  console.log("DELETE");
+  $("#parent .child").remove();
+  $("#circle-bg .child").remove();
+}
+
+async function generateContent() {
+  const circleContent = handleHtmlCircleContent();
+  const circleBackground = handleHtmlCircleBackground();
+
+  $("#parent").append(circleContent);
+  $("#circle-bg").append(circleBackground);
+
+  generateData(data).then(generateCircleContent());
+
+  console.log(3333);
+}
+
+generateContent();
 
 // Page Demo End
