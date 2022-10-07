@@ -45,7 +45,7 @@ let defaultStatus = false;
 let windowWidth = $(window).width();
 let itemDisplay = 0;
 
-if (windowWidth < 992) {
+if (windowWidth <= 992) {
   degCorner = 45;
   itemDisplay = 8;
 } else {
@@ -66,12 +66,15 @@ const data = [
       title: ["だけじゃない!", "やまと蜂蜜。"],
       describe_title:
         "ポーション・ボトル・パックへ の O E M 商品 企 画・製 造 。",
+      describe_title_sp: "ポーション・ボトル・パックへの受託充填業務。",
       describe:
         "こ れ は ダ ミ ー で す 。最 終 は こ こ に 適 切 な コ ピ ー が 入 り ま す 。こ れ はダ ミ ー で す 。最 終 は こ こ に 適 切 な コ ピ ー が 入 り ま す 。こ れ は ダ ミ ーです。最終はここに適切なコピーが入ります。これはダミーです。",
     },
-    content_left: "てんてきの糖だけじゃない",
+    content_left_pc: "てんてきの糖だけじゃない",
+    content_left_sp: ["だけじゃない!", "やまと蜂蜜"],
     bg_color: "linear-gradient(to bottom right, blue, yellow)",
     text_btn: "OEM・PB 商品の企画製造につい",
+    text_btn_see_more: "詳しく見る",
     store_name: "YAMATO HONEY",
   },
   {
@@ -79,12 +82,15 @@ const data = [
     content: {
       title: ["だけじゃない!", "やまと蜂蜜。"],
       describe_title: "海外企業に対する液体商品充填業務。",
+      describe_title_sp: "ポーション・ボトル・パックへの受託充填業務。",
       describe:
         "これはダミーです。最終はここに適切なコピーが入ります。これはダミーです。最終はここに適切なコピーが入ります。これはダミーです。最終はここに適切なコピーが入ります。これはダミーです。",
     },
-    content_left: "2てんてきの糖だけじゃない",
+    content_left_pc: "てんてきの糖だけじゃない",
+    content_left_sp: ["だけじゃない!", "やまと蜂蜜"],
     bg_color: "linear-gradient(to bottom right, green, pink)",
     text_btn: "海外のお客様へ",
+    text_btn_see_more: "詳しく見る",
     store_name: "YAMATO HONEY",
   },
   {
@@ -92,12 +98,15 @@ const data = [
     content: {
       title: ["だけじゃない!", "やまと蜂蜜。"],
       describe_title: "やまと蜂蜜の将来を担う若手社員を積極採用。",
+      describe_title_sp: "ポーション・ボトル・パックへの受託充填業務。",
       describe:
         "これはダミーです。最終はここに適切なコピーが入ります。これはダミーです。最終はここに適切なコピーが入ります。これはダミーです。最終はここに適切なコピーが入ります。これはダミーです。",
     },
-    content_left: "3てんてきの糖だけじゃない",
+    content_left_pc: "てんてきの糖だけじゃない",
+    content_left_sp: ["だけじゃない!", "やまと蜂蜜"],
     bg_color: "linear-gradient(to bottom right, purple, orange)",
     text_btn: "採用サイトを見る",
+    text_btn_see_more: "詳しく見る",
     store_name: "YAMATO HONEY",
   },
   {
@@ -105,12 +114,15 @@ const data = [
     content: {
       title: ["だけじゃない!", "やまと蜂蜜。"],
       describe_title: "70年余の歴史を守る、堅実な経営体制。",
+      describe_title_sp: "ポーション・ボトル・パックへの受託充填業務。",
       describe:
         "これはダミーです。最終はここに適切なコピーが入ります。これはダミーです。最終はここに適切なコピーが入ります。これはダミーです。最終はここに適切なコピーが入ります。これはダミーです。",
     },
-    content_left: "4てんてきの糖だけじゃない",
+    content_left_pc: "てんてきの糖だけじゃない",
+    content_left_sp: ["だけじゃない!", "やまと蜂蜜"],
     bg_color: "linear-gradient(to bottom right, gray, red)",
     text_btn: "会社概要を見る",
+    text_btn_see_more: "詳しく見る",
     store_name: "YAMATO HONEY",
   },
   {
@@ -118,12 +130,15 @@ const data = [
     content: {
       title: ["だけじゃない!", "やまと蜂蜜。"],
       describe_title: "接遇品質にこだわったお客様への丁寧な対応。",
+      describe_title_sp: "ポーション・ボトル・パックへの受託充填業務。",
       describe:
         "これはダミーです。最終はここに適切なコピーが入ります。これはダミーです。最終はここに適切なコピーが入ります。これはダミーです。最終はここに適切なコピーが入ります。これはダミーです。",
     },
-    content_left: "5てんてきの糖だけじゃない",
+    content_left_pc: "てんてきの糖だけじゃない",
+    content_left_sp: ["だけじゃない!", "やまと蜂蜜"],
     bg_color: "linear-gradient(to bottom right, red, green)",
     text_btn: "お問い合わせページを見る",
+    text_btn_see_more: "詳しく見る",
     store_name: "YAMATO HONEY",
   },
 ];
@@ -178,7 +193,7 @@ $(window).resize(function () {
   windowWidth = $(window).width();
   console.log("windowWidth " + windowWidth);
 
-  if (windowWidth < 992) {
+  if (windowWidth <= 992) {
     console.log(7777);
     let isGenerate = false;
 
@@ -266,45 +281,62 @@ $(".sidebar-item").on("click", function () {
   }, 300);
 });
 
+$(".btn-show-menu").on("click", function () {
+  $("#menu-sp").removeClass("d-none");
+});
+
 function handleHtmlCircleContent() {
   let dataHtmlContent = "";
   for (let i = 1; i <= itemDisplay; i++) {
     dataHtmlContent += `
     <div id="child-${i}" class="child" index="${i}">
-                  <div class="content-left">
-                    <p></p>
-                  </div>
-                  <div class="d-flex content-right">
-                    <div class="image">
-                      <div class="bg-image">
-                        <div class="circle"></div>
-                        <div class="child-circle"></div>
-                        <div class="left"></div>
-                        <div class="right"></div>
-                      </div>
-                      <img src="" class="src-img" alt="">
-                    </div>
-                    <div class="content-right-detail">
-                      <div class="title">
-                        <p></p>
-                      </div>
-                      <div class="describe-title">
-                        <p></p>
-                      </div>
-                      <div class="describe">
-                        <p></p>
-                      </div>
+      <div class="content-left">
+        <div class="display-pc d-none d-lg-block">
+          <p></p>
+        </div>
+        <div class="display-sp d-flex d-lg-none">
+        </div>
+      </div>
+      <div class="d-flex content-right">
+        <div class="image">
+          <div class="bg-image">
+            <div class="circle"></div>
+            <div class="child-circle"></div>
+            <div class="left"></div>
+            <div class="right"></div>
+          </div>
+          <img src="" class="src-img" alt="">
+        </div>
+        <div class="content-right-detail">
+          <div class="title top-content">
+          </div>
+          <div class="bottom-content">
+            <div class="display-pc d-none d-lg-block">
+              <div class="describe-title">
+                <p></p>
+              </div>
+              <div class="describe">
+                <p></p>
+              </div>
 
-                      <div class="area-btn-detail">
-                        <button class="btn-detail-info"><span class="content-btn"></span> <span class="special-icon">›</span></button>
-                      </div>
-                      <div class="btns-action">
-                        <button class="btn-prev"><span class="special-icon">‹</span></button>
-                        <button class="btn-next"><span class="special-icon">›</span></button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <div class="area-btn-detail">
+                <button class="btn-detail-info"><span class="content-btn"></span> <span class="special-icon">›</span></button>
+              </div>
+            </div>
+            <div class="display-sp d-block d-lg-none">
+              <div class="describe-title">
+                <p></p>
+              </div>
+              <a class="see-more"><span class="content-btn"></span><span class="special-icon">›</span></a>
+            </div>
+            <div class="btns-action d-none d-lg-block">
+              <button class="btn-prev"><span class="special-icon">‹</span></button>
+              <button class="btn-next"><span class="special-icon">›</span></button>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
     `;
   }
 
@@ -362,6 +394,11 @@ function handlePrevItem() {
 
 function handleRemoveClassForOldItemSelected() {
   $(`div[index=${mainItem}]`).removeClass("active");
+  $(
+    `#btns-change-content .item-display[index-item=${
+      mainItem % data.length == 0 ? data.length : mainItem % data.length
+    }]`
+  ).removeClass("active");
 
   $(
     `div[sidebar-index=item-${
@@ -373,6 +410,11 @@ function handleRemoveClassForOldItemSelected() {
 function handleAddClassForCurrentItemSelected() {
   $(`div[index=${mainItem}]`).addClass("active");
   $(
+    `#btns-change-content .item-display[index-item=${
+      mainItem % data.length == 0 ? data.length : mainItem % data.length
+    }]`
+  ).addClass("active");
+  $(
     `div[sidebar-index=item-${
       mainItem % data.length == 0 ? data.length : mainItem % data.length
     }`
@@ -380,13 +422,30 @@ function handleAddClassForCurrentItemSelected() {
 }
 
 function handleContentTextLeft(index) {
-  const text = $($(`div[index=${index + 1}] .content-left p`));
+  const itemTextPc = $(
+    $(`div[index=${index + 1}] .content-left .display-pc p`)
+  );
+  const itemTextSp = $(
+    $(`div[index=${index + 1}] .content-left .display-sp p`)
+  );
 
-  text.html(
-    text.text().replace(/\S/g, function (value, index) {
+  console.log(itemTextSp);
+
+  itemTextPc.html(
+    itemTextPc.text().replace(/\S/g, function (value, index) {
       return `<span style="--i:${index + 1}">${value}</span>`;
     })
   );
+
+  itemTextSp.each(function (index, value) {
+    $(this).html(
+      $(this)
+        .text()
+        .replace(/\S/g, function (val, i) {
+          return `<span style="--i:${i + 1}">${val}</span>`;
+        })
+    );
+  });
 }
 
 function handleRotation(degCorner, isScrollUp) {
@@ -410,7 +469,22 @@ function handleRotation(degCorner, isScrollUp) {
   }
 }
 
+function handleUpdateListItemDisplay() {}
+
 async function generateData(data) {
+  let listItemDisplay = "";
+
+  data.forEach(function (value, index) {
+    listItemDisplay += `<li class="item-display ${
+      index + 1 == mainItem % data.length ? "active" : ""
+    }" index-item="${index + 1}"></li>`;
+  });
+  console.log("listItemDisplay: " + listItemDisplay);
+
+  $(".item-display").remove();
+
+  $("#btns-change-content .list-item-display").append(listItemDisplay);
+
   $(`div[index=${mainItem}]`).addClass("active");
   $(
     `div[sidebar-index=item-${
@@ -429,31 +503,55 @@ async function generateData(data) {
 
   $("#parent .child").each(function (index, value) {
     let title = "";
+    let titleSp = "";
+
+    // console.log("index: " + index);
+
+    data[index % data.length].content_left_sp.forEach(function (valueSp, i) {
+      titleSp += `<p>${valueSp}</p>`;
+    });
 
     data[index % data.length].content.title.forEach(function (value, i) {
       title += `<p>${value}</p>`;
     });
 
+    $(this)
+      .find(".image img")
+      .attr("src", data[index % data.length].img);
+
     $(this).find(".content-right-detail .title").append(title);
+    $(this).find(".content-left .display-sp").append(titleSp);
+    $(this)
+      .find(".content-left .display-pc p ")
+      .text(data[index % data.length].content_left_pc);
 
     $(this)
-      .find(".content-right-detail .describe-title p")
+      .find(".content-right-detail .display-pc .describe-title p")
       .text(data[index % data.length].content.describe_title);
+    $(this)
+      .find(".content-right-detail .display-sp .describe-title p")
+      .text(data[index % data.length].content.describe_title_sp);
     $(this)
       .find(".content-right-detail .describe p")
       .text(data[index % data.length].content.describe);
     $(this)
-      .find(".image img")
-      .attr("src", data[index % data.length].img);
+      .find(".content-right-detail .see-more .content-btn")
+      .text(data[index % data.length].text_btn_see_more);
     $(this)
-      .find(".content-left p ")
-      .text(data[index % data.length].content_left);
-    $(this)
-      .find(".content-right-detail button .content-btn")
+      .find(".content-right-detail .btn-detail-info .content-btn")
       .text(data[index % data.length].text_btn);
     $(this)
       .find(".content-right-detail .area-btn-detail .sub-btn")
       .text(data[index % data.length].sub_btn);
+
+    // console.log(this);
+    // $("#btns-change-content .list-item-display .item-display").each(function (
+    //   index,
+    //   item
+    // ) {
+    //   console.log("index: " + index);
+    //   console.log($(item).attr("index-item"));
+    // });
 
     const degCircle =
       degCorner * -1 - currentAngle + degCorner - index * degCorner;
@@ -463,7 +561,7 @@ async function generateData(data) {
 }
 
 function generateCircleContent(windowWidth) {
-  if (windowWidth >= 992) {
+  if (windowWidth > 992) {
     $("#parent .child").each(function (index, item) {
       const R = $("#parent").css("width").slice(0, -2) / 16 / 2;
       const heightSubChildItem =

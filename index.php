@@ -39,6 +39,7 @@ $data = [
   <script src="https://unpkg.com/vue@3.0.0-beta.12/dist/vue.global.js "></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
 
 </head>
 
@@ -47,15 +48,15 @@ $data = [
   <section>
     <div class="page-demo">
       <div class="header row m-0">
-        <div class="header-left col-6">
-          <div class="logo">
+        <div class="header-left col-10 row m-0">
+          <div class="logo col-12 col-lg-6">
             <div>
               <p class="m-0">
                 Logo
               </p>
             </div>
           </div>
-          <div class="logo-text">
+          <div class="logo-text col-12 col-lg-6">
             <div>
               <p class="m-0">
                 ポーションパックの受託充填OEM｜株式会社やまと蜂蜜
@@ -64,7 +65,7 @@ $data = [
           </div>
 
         </div>
-        <nav class="header-right col-6 navbar navbar-expand-lg navbar-light p-0">
+        <nav class="header-right d-none d-lg-flex col-6 navbar navbar-expand-lg navbar-light p-0">
           <ul class="navbar-nav">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#">OEM/PB
@@ -93,8 +94,19 @@ $data = [
             </li>
           </ul>
         </nav>
+        <div class="content-menu col-2">
+          <button class="btn-show-menu"><i class="fa-solid fa-bars icon-show-menu"></i></button>
+        </div>
+        <div class="content-menu-sp">
+          <ul id="menu-sp" class="nav-menu d-none">
+            <li class="nav-item">1</li>
+            <li class="nav-item">1</li>
+            <li class="nav-item">1</li>
+            <li class="nav-item">1</li>
+          </ul>
+        </div>
       </div>
-      <div class="sidebar">
+      <div class="sidebar d-none d-lg-flex">
         <?php
         foreach ($data as $key => $item) {
         ?>
@@ -126,11 +138,21 @@ $data = [
 
       </div>
 
+      <div id="btns-change-content">
+        <div class="btns-action">
+          <button class="btn-prev"><span class="special-icon">‹</span></button>
+          <button class="btn-next"><span class="special-icon">›</span></button>
+        </div>
+
+        <ul class="list-item-display">
+        </ul>
+      </div>
+
       <div class="footer">
         <p>@2022 Yamato Honey Co.,Ltd.</p>
       </div>
 
-      <div class="content-noti">
+      <div class="content-noti d-none d-lg-block">
         <div class="notification">
           <p class="m-0"><span class="pe-2 news">NEWS</span>2022年12月1日 <a href="#">年末年始休業に伴う製造スケジュールについて</a></p>
         </div>
