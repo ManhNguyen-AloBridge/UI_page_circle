@@ -48,15 +48,15 @@ $data = [
   <section>
     <div class="page-demo">
       <div class="header row m-0">
-        <div class="header-left col-10 row m-0">
-          <div class="logo col-12 col-lg-6">
+        <div class="header-left col-10 col-lg-6 row m-0">
+          <div class="logo col-12 col-lg-4">
             <div>
               <p class="m-0">
                 Logo
               </p>
             </div>
           </div>
-          <div class="logo-text col-12 col-lg-6">
+          <div class="logo-text col-12 col-lg-8">
             <div>
               <p class="m-0">
                 ポーションパックの受託充填OEM｜株式会社やまと蜂蜜
@@ -94,15 +94,39 @@ $data = [
             </li>
           </ul>
         </nav>
-        <div class="content-menu col-2">
+        <div class="area-btn-show-menu col-2 col-lg-6 d-flex d-lg-none">
           <button class="btn-show-menu"><i class="fa-solid fa-bars icon-show-menu"></i></button>
         </div>
-        <div class="content-menu-sp">
-          <ul id="menu-sp" class="nav-menu d-none">
-            <li class="nav-item">1</li>
-            <li class="nav-item">1</li>
-            <li class="nav-item">1</li>
-            <li class="nav-item">1</li>
+        <div id="menu-sp" class="content-menu-sp d-none">
+          <button id="btn-close-navbar" class="btn-close-navbar">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+          <ul class="nav-menu">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">OEM/PB
+                <span>会社案内</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">SHOP
+                <span>オリジナル商品製造</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">RECRUIT
+                <span>オンラインショップ</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">GLOBAL
+                <span>採用について</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">CONTACT
+                <span>お問い合わせ</span>
+              </a>
+            </li>
           </ul>
         </div>
       </div>
@@ -138,7 +162,7 @@ $data = [
 
       </div>
 
-      <div id="btns-change-content">
+      <div id="btns-change-content" class="d-block d-lg-none">
         <div class="btns-action">
           <button class="btn-prev"><span class="special-icon">‹</span></button>
           <button class="btn-next"><span class="special-icon">›</span></button>

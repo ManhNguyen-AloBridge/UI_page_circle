@@ -44,6 +44,7 @@ let isLoading = false;
 let defaultStatus = false;
 let windowWidth = $(window).width();
 let itemDisplay = 0;
+let indexDataDefault = 0;
 
 if (windowWidth <= 992) {
   degCorner = 45;
@@ -52,10 +53,6 @@ if (windowWidth <= 992) {
   degCorner = 30;
   itemDisplay = 12;
 }
-
-console.log("windowWidth " + windowWidth);
-console.log("degCorner " + degCorner);
-console.log("itemDisplay " + itemDisplay);
 
 const countItemOnCircle = 360 / degCorner;
 
@@ -153,11 +150,10 @@ $(window).bind("mousewheel DOMMouseScroll", function (event) {
     console.log("Scroll up");
 
     setTimeout(() => {
-      console.log("old-mainItem " + mainItem);
       handleRemoveClassForOldItemSelected();
       mainItem = mainItem >= itemDisplay ? 1 : ++mainItem;
-      console.log("new-mainItem " + mainItem);
       handleAddClassForCurrentItemSelected();
+      console.log("mainItem: " + mainItem);
 
       // const degCorner = 30;
       handleRotation(degCorner, true);
@@ -165,16 +161,14 @@ $(window).bind("mousewheel DOMMouseScroll", function (event) {
       setTimeout(() => {
         isLoading = false;
       }, 1000);
+      handleSetIndexItemDisplay();
     }, 300);
   } else {
     console.log("Scroll down");
-    console.log("countItemOnCircle " + countItemOnCircle);
 
     setTimeout(() => {
-      console.log("old-mainItem " + mainItem);
       handleRemoveClassForOldItemSelected();
       mainItem = mainItem < 2 ? itemDisplay : --mainItem;
-      console.log("new-mainItem " + mainItem);
       handleAddClassForCurrentItemSelected();
 
       // const degCorner = -30;
@@ -183,23 +177,18 @@ $(window).bind("mousewheel DOMMouseScroll", function (event) {
       setTimeout(() => {
         isLoading = false;
       }, 1000);
+      handleSetIndexItemDisplay();
     }, 300);
   }
 });
 
-console.log($("#parent"));
-
 $(window).resize(function () {
   windowWidth = $(window).width();
-  console.log("windowWidth " + windowWidth);
 
   if (windowWidth <= 992) {
-    console.log(7777);
     let isGenerate = false;
-
-    console.log("oldDegCorner " + oldDegCorner);
-    console.log("degCorner " + degCorner);
     degCorner = 45;
+
     if (oldDegCorner != degCorner) {
       isGenerate = true;
       oldDegCorner = degCorner;
@@ -211,11 +200,9 @@ $(window).resize(function () {
       generateContent();
     }
   } else {
-    console.log(8888);
-    console.log("oldDegCorner " + oldDegCorner);
-    console.log("degCorner " + degCorner);
     let isGenerate = false;
     degCorner = 30;
+
     if (oldDegCorner != degCorner) {
       isGenerate = true;
       oldDegCorner = degCorner;
@@ -227,7 +214,6 @@ $(window).resize(function () {
     }
   }
 
-  console.log(degCorner);
   generateCircleContent(windowWidth);
 });
 
@@ -285,11 +271,97 @@ $(".btn-show-menu").on("click", function () {
   $("#menu-sp").removeClass("d-none");
 });
 
+$("#btn-close-navbar").on("click", function () {
+  $("#menu-sp").addClass("d-none");
+});
+
+function handleSetIndexItemDisplay() {
+  let indexLoopDown = 1;
+  let indexLoopUp = 1;
+  const indexEle = parseInt($(`#child-${mainItem}`).attr("id").slice(6)); //min 1
+
+  generateIndexDataDisplayUp(indexLoopUp, indexEle);
+  generateIndexDataDisplayDown(indexLoopDown, indexEle);
+}
+
+function generateIndexDataDisplayUp(indexLoopUp, indexEle) {
+  console.log("Handle up");
+
+  while (indexLoopUp <= 3) {
+    const indexCurrentItemLoop =
+      indexEle + indexLoopUp > itemDisplay
+        ? (indexEle + indexLoopUp) % itemDisplay
+        : indexEle + indexLoopUp;
+
+    const indexBeforeItem =
+      indexEle - indexLoopUp <= 0
+        ? indexEle - indexLoopUp == 0
+          ? itemDisplay
+          : itemDisplay + (indexEle - indexLoopUp)
+        : indexEle - indexLoopUp;
+
+    // const mainDataIndex = parseInt($(`#child-${mainItem}`).attr("index-data"));
+    const mainDataIndex = parseInt(
+      $(`#child-${mainItem}`).attr("index-data-display")
+    );
+    const currentItem = $(`#child-${indexCurrentItemLoop}`);
+    const currentItemIndex = parseInt(currentItem.attr("id").slice(6));
+
+    const itemBefore = $(`#child-${indexBeforeItem}`);
+
+    console.log(itemBefore);
+
+    currentItem.attr("index-data-display", mainDataIndex + 1);
+
+    indexLoopUp++;
+  }
+}
+
+function generateIndexDataDisplayDown(indexLoopDown, indexEle) {
+  console.log("Handle down");
+  while (indexLoopDown <= 3) {
+    const indexCurrentItemLoop =
+      indexEle - indexLoopDown <= 0
+        ? indexEle - indexLoopDown == 0
+          ? itemDisplay
+          : itemDisplay + (indexEle - indexLoopDown)
+        : indexEle - indexLoopDown;
+
+    const currentItem = $(`#child-${indexCurrentItemLoop}`);
+    const currentItemIndex = currentItem.attr("id").slice(6);
+
+    const indexBeforeItemLoop =
+      currentItemIndex - 1 <= 0
+        ? currentItemIndex - 1 == 0
+          ? data.length - 1
+          : data.length - currentItemIndex - 1
+        : currentItemIndex - 1;
+
+    const indexDataBeforeItem = $(`#child-${indexBeforeItemLoop}`).attr(
+      "index-data"
+    );
+
+    currentItem.attr(
+      "index-data-display",
+      indexDataBeforeItem - 1 < 0
+        ? indexDataBeforeItem - 1 == -1
+          ? data.length - 1
+          : data.length - indexDataBeforeItem - 1
+        : indexDataBeforeItem - 1
+    );
+    indexLoopDown++;
+  }
+}
+
+function handleClickOutSideNavbar() {}
+
 function handleHtmlCircleContent() {
   let dataHtmlContent = "";
   for (let i = 1; i <= itemDisplay; i++) {
     dataHtmlContent += `
-    <div id="child-${i}" class="child" index="${i}">
+    <div id="child-${i}" class="child" index="${i}" index-data="${
+      (i - 1) % data.length
+    }" index-data-display="${i == 1 ? 0 : ""}">
       <div class="content-left">
         <div class="display-pc d-none d-lg-block">
           <p></p>
@@ -429,8 +501,6 @@ function handleContentTextLeft(index) {
     $(`div[index=${index + 1}] .content-left .display-sp p`)
   );
 
-  console.log(itemTextSp);
-
   itemTextPc.html(
     itemTextPc.text().replace(/\S/g, function (value, index) {
       return `<span style="--i:${index + 1}">${value}</span>`;
@@ -479,7 +549,6 @@ async function generateData(data) {
       index + 1 == mainItem % data.length ? "active" : ""
     }" index-item="${index + 1}"></li>`;
   });
-  console.log("listItemDisplay: " + listItemDisplay);
 
   $(".item-display").remove();
 
@@ -504,8 +573,6 @@ async function generateData(data) {
   $("#parent .child").each(function (index, value) {
     let title = "";
     let titleSp = "";
-
-    // console.log("index: " + index);
 
     data[index % data.length].content_left_sp.forEach(function (valueSp, i) {
       titleSp += `<p>${valueSp}</p>`;
@@ -544,20 +611,13 @@ async function generateData(data) {
       .find(".content-right-detail .area-btn-detail .sub-btn")
       .text(data[index % data.length].sub_btn);
 
-    // console.log(this);
-    // $("#btns-change-content .list-item-display .item-display").each(function (
-    //   index,
-    //   item
-    // ) {
-    //   console.log("index: " + index);
-    //   console.log($(item).attr("index-item"));
-    // });
-
     const degCircle =
       degCorner * -1 - currentAngle + degCorner - index * degCorner;
 
     handleContentTextLeft(index);
   });
+
+  handleSetIndexItemDisplay();
 }
 
 function generateCircleContent(windowWidth) {
@@ -757,7 +817,6 @@ function generateCircleContent(windowWidth) {
         $($("#parent .child:not(.active)")[0]).css("height").slice(0, -2) / 16;
 
       if (index == 0) {
-        console.log(222);
         const heightItemDefault =
           $("#parent .child.active").css("height").slice(0, -2) / 16;
         $(item).css({
@@ -900,7 +959,6 @@ function generateCircleContent(windowWidth) {
 }
 
 function removeContentChild() {
-  console.log("DELETE");
   $("#parent .child").remove();
   $("#circle-bg .child").remove();
 }
@@ -913,10 +971,9 @@ async function generateContent() {
   $("#circle-bg").append(circleBackground);
 
   generateData(data).then(generateCircleContent());
-
-  console.log(3333);
 }
 
 generateContent();
+generateCircleContent(windowWidth);
 
 // Page Demo End
