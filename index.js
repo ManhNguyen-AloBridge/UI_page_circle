@@ -43,15 +43,15 @@ let mainItem = 1;
 let isLoading = false;
 let defaultStatus = false;
 let windowWidth = $(window).width();
-let itemDisplay = 0;
-let indexDataDefault = 0;
+let itemsDisplay = 0;
+let indexData = 0;
 
 if (windowWidth <= 992) {
   degCorner = 45;
-  itemDisplay = 8;
+  itemsDisplay = 8;
 } else {
   degCorner = 30;
-  itemDisplay = 12;
+  itemsDisplay = 12;
 }
 
 const countItemOnCircle = 360 / degCorner;
@@ -149,36 +149,37 @@ $(window).bind("mousewheel DOMMouseScroll", function (event) {
   if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
     console.log("Scroll up");
 
-    setTimeout(() => {
-      handleRemoveClassForOldItemSelected();
-      mainItem = mainItem >= itemDisplay ? 1 : ++mainItem;
-      handleAddClassForCurrentItemSelected();
-      console.log("mainItem: " + mainItem);
+    // setTimeout(() => {
+    //   handleRemoveClassForOldItemSelected();
+    //   mainItem = mainItem >= itemsDisplay ? 1 : ++mainItem;
+    //   handleAddClassForCurrentItemSelected();
 
-      // const degCorner = 30;
-      handleRotation(degCorner, true);
+    //   handleRotation(degCorner, true);
 
-      setTimeout(() => {
-        isLoading = false;
-      }, 1000);
-      handleSetIndexItemDisplay();
-    }, 300);
+    //   setTimeout(() => {
+    //     isLoading = false;
+    //   }, 1000);
+    //   handleSetIndexItemDisplay();
+    // }, 300);
+
+    handleNextItem();
   } else {
     console.log("Scroll down");
 
-    setTimeout(() => {
-      handleRemoveClassForOldItemSelected();
-      mainItem = mainItem < 2 ? itemDisplay : --mainItem;
-      handleAddClassForCurrentItemSelected();
+    // setTimeout(() => {
+    //   handleRemoveClassForOldItemSelected();
+    //   mainItem = mainItem < 2 ? itemsDisplay : --mainItem;
+    //   handleAddClassForCurrentItemSelected();
 
-      // const degCorner = -30;
-      handleRotation(-1 * degCorner, false);
+    //   handleRotation(-1 * degCorner, false);
 
-      setTimeout(() => {
-        isLoading = false;
-      }, 1000);
-      handleSetIndexItemDisplay();
-    }, 300);
+    //   setTimeout(() => {
+    //     isLoading = false;
+    //   }, 1000);
+    //   handleSetIndexItemDisplay();
+    // }, 300);
+
+    handlePrevItem();
   }
 });
 
@@ -193,7 +194,7 @@ $(window).resize(function () {
       isGenerate = true;
       oldDegCorner = degCorner;
     }
-    itemDisplay = 8;
+    itemsDisplay = 8;
 
     if (isGenerate) {
       removeContentChild();
@@ -207,7 +208,7 @@ $(window).resize(function () {
       isGenerate = true;
       oldDegCorner = degCorner;
     }
-    itemDisplay = 12;
+    itemsDisplay = 12;
     if (isGenerate) {
       removeContentChild();
       generateContent();
@@ -217,23 +218,39 @@ $(window).resize(function () {
   generateCircleContent(windowWidth);
 });
 
-$(".btn-prev").on("click", function () {
+$(document).on("click", function (e) {
+  console.log(e.target);
+  const itemTarget = $(e.target);
+
+  const classTarget = itemTarget.attr("class");
+  const parentClassTarget = itemTarget.parent().attr("class");
+
+  if (classTarget == "btn-prev" || parentClassTarget == "btn-prev") {
+    handleClickBtnPrev();
+  }
+
+  if (classTarget == "btn-next" || parentClassTarget == "btn-next") {
+    handleClickBtnNext();
+  }
+});
+
+function handleClickBtnPrev() {
   if (isLoading) {
     return;
   }
 
   isLoading = true;
   handlePrevItem(isLoading);
-});
+}
 
-$(".btn-next").on("click", function () {
+function handleClickBtnNext() {
   if (isLoading) {
     return;
   }
 
   isLoading = true;
   handleNextItem(isLoading);
-});
+}
 
 $(".sidebar-item").on("click", function () {
   if (isLoading) {
@@ -258,12 +275,12 @@ $(".sidebar-item").on("click", function () {
     mainItem = indexItemSelect;
     handleAddClassForCurrentItemSelected();
 
-    // const degCorner = 30 * step;
     handleRotation(degCorner * step);
 
     setTimeout(() => {
       isLoading = false;
     }, 1000);
+    handleSetIndexItemDisplay();
   }, 300);
 });
 
@@ -278,90 +295,104 @@ $("#btn-close-navbar").on("click", function () {
 function handleSetIndexItemDisplay() {
   let indexLoopDown = 1;
   let indexLoopUp = 1;
-  const indexEle = parseInt($(`#child-${mainItem}`).attr("id").slice(6)); //min 1
+  const indexEleContent = parseInt($(`#child-${mainItem}`).attr("id").slice(6)); //min 1
+  const indexEleBg = parseInt($(`#child-bg-${mainItem}`).attr("id").slice(9)); //min 1
 
-  generateIndexDataDisplayUp(indexLoopUp, indexEle);
-  generateIndexDataDisplayDown(indexLoopDown, indexEle);
+  console.log("indexEleBg: " + indexEleBg);
+
+  generateIndexDataDisplayUp(indexLoopUp, indexEleContent, "#child-");
+  generateIndexDataDisplayDown(indexLoopDown, indexEleContent, "#child-");
+
+  generateIndexDataDisplayUp(indexLoopUp, indexEleBg, "#child-bg-");
+  generateIndexDataDisplayDown(indexLoopDown, indexEleBg, "#child-bg-");
 }
 
-function generateIndexDataDisplayUp(indexLoopUp, indexEle) {
+function generateIndexDataDisplayUp(indexLoopUp, indexEle, subId) {
   console.log("Handle up");
 
   while (indexLoopUp <= 3) {
     const indexCurrentItemLoop =
-      indexEle + indexLoopUp > itemDisplay
-        ? (indexEle + indexLoopUp) % itemDisplay
+      indexEle + indexLoopUp > itemsDisplay
+        ? (indexEle + indexLoopUp) % itemsDisplay
         : indexEle + indexLoopUp;
 
-    const indexBeforeItem =
-      indexEle - indexLoopUp <= 0
-        ? indexEle - indexLoopUp == 0
-          ? itemDisplay
-          : itemDisplay + (indexEle - indexLoopUp)
-        : indexEle - indexLoopUp;
+    const indexNextItemLoop =
+      indexCurrentItemLoop - 1 <= 0
+        ? indexCurrentItemLoop - 1 == 0
+          ? indexCurrentItemLoop
+          : Math.abs(indexCurrentItemLoop - 1) + 1
+        : indexCurrentItemLoop - 1;
 
-    // const mainDataIndex = parseInt($(`#child-${mainItem}`).attr("index-data"));
-    const mainDataIndex = parseInt(
-      $(`#child-${mainItem}`).attr("index-data-display")
+    const nextItem = $(`${subId}${indexNextItemLoop}`);
+    const nextDataIndex = parseInt(nextItem.attr("index-data-display"));
+
+    const currentItem = $(`${subId}${indexCurrentItemLoop}`);
+
+    console.log(currentItem);
+
+    currentItem.attr(
+      "index-data-display",
+      nextDataIndex + 1 >= data.length - 1
+        ? nextDataIndex + 1 == data.length
+          ? 0
+          : (nextDataIndex + 1) % data.length
+        : nextDataIndex + 1
     );
-    const currentItem = $(`#child-${indexCurrentItemLoop}`);
-    const currentItemIndex = parseInt(currentItem.attr("id").slice(6));
 
-    const itemBefore = $(`#child-${indexBeforeItem}`);
-
-    console.log(itemBefore);
-
-    currentItem.attr("index-data-display", mainDataIndex + 1);
+    currentItem.attr("is-direction-up", 1);
 
     indexLoopUp++;
   }
 }
 
-function generateIndexDataDisplayDown(indexLoopDown, indexEle) {
+function generateIndexDataDisplayDown(indexLoopDown, indexEle, subId) {
   console.log("Handle down");
+
   while (indexLoopDown <= 3) {
     const indexCurrentItemLoop =
       indexEle - indexLoopDown <= 0
         ? indexEle - indexLoopDown == 0
-          ? itemDisplay
-          : itemDisplay + (indexEle - indexLoopDown)
+          ? itemsDisplay
+          : itemsDisplay + (indexEle - indexLoopDown)
         : indexEle - indexLoopDown;
 
-    const currentItem = $(`#child-${indexCurrentItemLoop}`);
-    const currentItemIndex = currentItem.attr("id").slice(6);
+    const indexPrevItemLoop =
+      (indexCurrentItemLoop + 1) % itemsDisplay >= 0
+        ? (indexCurrentItemLoop + 1) % itemsDisplay == 0
+          ? itemsDisplay
+          : (indexCurrentItemLoop + 1) % itemsDisplay
+        : -1;
 
-    const indexBeforeItemLoop =
-      currentItemIndex - 1 <= 0
-        ? currentItemIndex - 1 == 0
-          ? data.length - 1
-          : data.length - currentItemIndex - 1
-        : currentItemIndex - 1;
+    if (indexPrevItemLoop == -1) {
+      return;
+    }
 
-    const indexDataBeforeItem = $(`#child-${indexBeforeItemLoop}`).attr(
-      "index-data"
-    );
+    const prevItem = $(`${subId}${indexPrevItemLoop}`);
+    const currentItem = $(`${subId}${indexCurrentItemLoop}`);
+
+    const indexDataPrevItem = parseInt(prevItem.attr("index-data-display"));
 
     currentItem.attr(
       "index-data-display",
-      indexDataBeforeItem - 1 < 0
-        ? indexDataBeforeItem - 1 == -1
+      indexDataPrevItem - 1 < 0
+        ? indexDataPrevItem - 1 == -1
           ? data.length - 1
-          : data.length - indexDataBeforeItem - 1
-        : indexDataBeforeItem - 1
+          : data.length - indexDataPrevItem - 1
+        : indexDataPrevItem - 1
     );
+
+    currentItem.attr("is-direction-up", 0);
     indexLoopDown++;
   }
 }
 
-function handleClickOutSideNavbar() {}
-
 function handleHtmlCircleContent() {
   let dataHtmlContent = "";
-  for (let i = 1; i <= itemDisplay; i++) {
+  for (let i = 1; i <= itemsDisplay; i++) {
     dataHtmlContent += `
-    <div id="child-${i}" class="child" index="${i}" index-data="${
-      (i - 1) % data.length
-    }" index-data-display="${i == 1 ? 0 : ""}">
+    <div id="child-${i}" class="child" index="${i}" index-data-display="${
+      i == 1 ? 0 : ""
+    }" is-direction-up="${i == 1 ? -1 : ""}" >
       <div class="content-left">
         <div class="display-pc d-none d-lg-block">
           <p></p>
@@ -417,9 +448,11 @@ function handleHtmlCircleContent() {
 
 function handleHtmlCircleBackground() {
   let dataHtmlBackground = "";
-  for (let i = 1; i <= itemDisplay; i++) {
+  for (let i = 1; i <= itemsDisplay; i++) {
     dataHtmlBackground += `
-      <div id="child-bg-${i}" class="child" index="${i}">
+      <div id="child-bg-${i}" class="child" index="${i}" index-data-display="${
+      i == 1 ? 0 : ""
+    }">
         <div class="bg-item">
           <div class="store-name">
             <p class="m-0"></p>
@@ -437,7 +470,7 @@ function handleNextItem() {
 
   setTimeout(() => {
     handleRemoveClassForOldItemSelected();
-    mainItem = mainItem >= itemDisplay ? 1 : ++mainItem;
+    mainItem = mainItem >= itemsDisplay ? 1 : ++mainItem;
     handleAddClassForCurrentItemSelected();
 
     handleRotation(degCorner, true);
@@ -445,6 +478,8 @@ function handleNextItem() {
     -setTimeout(() => {
       isLoading = false;
     }, 1000);
+    handleSetIndexItemDisplay();
+    updateData();
   }, 300);
 }
 
@@ -453,7 +488,7 @@ function handlePrevItem() {
 
   setTimeout(() => {
     handleRemoveClassForOldItemSelected();
-    mainItem = mainItem < 2 ? itemDisplay : --mainItem;
+    mainItem = mainItem < 2 ? itemsDisplay : --mainItem;
     handleAddClassForCurrentItemSelected();
 
     handleRotation(-1 * degCorner, false);
@@ -461,44 +496,42 @@ function handlePrevItem() {
     setTimeout(() => {
       isLoading = false;
     }, 1000);
+    handleSetIndexItemDisplay();
+    updateData();
   }, 300);
 }
 
 function handleRemoveClassForOldItemSelected() {
-  $(`div[index=${mainItem}]`).removeClass("active");
+  indexData = parseInt(
+    $(`div[id=child-${mainItem}]`).attr("index-data-display")
+  );
+  $(`div[id=child-${mainItem}]`).removeClass("active");
+  $(`div[id=child-bg-${mainItem}]`).removeClass("active");
   $(
-    `#btns-change-content .item-display[index-item=${
-      mainItem % data.length == 0 ? data.length : mainItem % data.length
-    }]`
+    `#btns-change-content .item-display[index-item=${indexData + 1}]`
   ).removeClass("active");
 
-  $(
-    `div[sidebar-index=item-${
-      mainItem % data.length == 0 ? data.length : mainItem % data.length
-    }`
-  ).removeClass("active");
+  $(`div[sidebar-index=item-${indexData + 1}`).removeClass("active");
 }
 
 function handleAddClassForCurrentItemSelected() {
-  $(`div[index=${mainItem}]`).addClass("active");
-  $(
-    `#btns-change-content .item-display[index-item=${
-      mainItem % data.length == 0 ? data.length : mainItem % data.length
-    }]`
-  ).addClass("active");
-  $(
-    `div[sidebar-index=item-${
-      mainItem % data.length == 0 ? data.length : mainItem % data.length
-    }`
-  ).addClass("active");
+  indexData = parseInt(
+    $(`div[id=child-${mainItem}]`).attr("index-data-display")
+  );
+  $(`div[id=child-${mainItem}]`).addClass("active");
+  $(`div[id=child-bg-${mainItem}]`).addClass("active");
+  $(`#btns-change-content .item-display[index-item=${indexData + 1}]`).addClass(
+    "active"
+  );
+  $(`div[sidebar-index=item-${indexData + 1}`).addClass("active");
 }
 
 function handleContentTextLeft(index) {
   const itemTextPc = $(
-    $(`div[index=${index + 1}] .content-left .display-pc p`)
+    $(`div[id=child-${index + 1}] .content-left .display-pc p`)
   );
   const itemTextSp = $(
-    $(`div[index=${index + 1}] .content-left .display-sp p`)
+    $(`div[id=child-${index + 1}] .content-left .display-sp p`)
   );
 
   itemTextPc.html(
@@ -539,14 +572,12 @@ function handleRotation(degCorner, isScrollUp) {
   }
 }
 
-function handleUpdateListItemDisplay() {}
-
 async function generateData(data) {
   let listItemDisplay = "";
 
   data.forEach(function (value, index) {
     listItemDisplay += `<li class="item-display ${
-      index + 1 == mainItem % data.length ? "active" : ""
+      index + 1 == indexData + 1 ? "active" : ""
     }" index-item="${index + 1}"></li>`;
   });
 
@@ -554,7 +585,7 @@ async function generateData(data) {
 
   $("#btns-change-content .list-item-display").append(listItemDisplay);
 
-  $(`div[index=${mainItem}]`).addClass("active");
+  $(`div[id=child-${mainItem}]`).addClass("active");
   $(
     `div[sidebar-index=item-${
       mainItem % data.length == 0 ? data.length : mainItem % data.length
@@ -562,54 +593,68 @@ async function generateData(data) {
   ).addClass("active");
 
   $("#circle-bg .child").each(function (index, value) {
+    const indexData = $(this).attr("index-data-display");
+
+    if (indexData == "") {
+      return;
+    }
+    const dataForItem = data[indexData];
+
     $(this)
       .find(".bg-item")
-      .css({ background: `${data[index % data.length].bg_color}` });
+      // .css({ background: `${data[index % data.length].bg_color}` });
+      .css({ background: `${dataForItem.bg_color}` });
     $(this)
       .find(".bg-item .store-name p")
-      .text(data[index % data.length].store_name);
+      // .text(data[index % data.length].store_name);
+      .text(dataForItem.store_name);
   });
 
   $("#parent .child").each(function (index, value) {
+    const indexData = $(this).attr("index-data-display");
+
+    if (indexData == "") {
+      return;
+    }
+
     let title = "";
     let titleSp = "";
+    const dataForItem = data[indexData];
 
-    data[index % data.length].content_left_sp.forEach(function (valueSp, i) {
-      titleSp += `<p>${valueSp}</p>`;
+    dataForItem.content_left_sp.forEach(function (valueSp, i) {
+      titleSp += `<p class="append">${valueSp}</p>`;
     });
 
-    data[index % data.length].content.title.forEach(function (value, i) {
-      title += `<p>${value}</p>`;
+    dataForItem.content.title.forEach(function (value, i) {
+      title += `<p class="append">${value}</p>`;
     });
 
-    $(this)
-      .find(".image img")
-      .attr("src", data[index % data.length].img);
+    $(this).find(".image img").attr("src", dataForItem.img);
 
     $(this).find(".content-right-detail .title").append(title);
     $(this).find(".content-left .display-sp").append(titleSp);
     $(this)
       .find(".content-left .display-pc p ")
-      .text(data[index % data.length].content_left_pc);
+      .text(dataForItem.content_left_pc);
 
     $(this)
       .find(".content-right-detail .display-pc .describe-title p")
-      .text(data[index % data.length].content.describe_title);
+      .text(dataForItem.content.describe_title);
     $(this)
       .find(".content-right-detail .display-sp .describe-title p")
-      .text(data[index % data.length].content.describe_title_sp);
+      .text(dataForItem.content.describe_title_sp);
     $(this)
       .find(".content-right-detail .describe p")
-      .text(data[index % data.length].content.describe);
+      .text(dataForItem.content.describe);
     $(this)
       .find(".content-right-detail .see-more .content-btn")
-      .text(data[index % data.length].text_btn_see_more);
+      .text(dataForItem.text_btn_see_more);
     $(this)
       .find(".content-right-detail .btn-detail-info .content-btn")
-      .text(data[index % data.length].text_btn);
+      .text(dataForItem.text_btn);
     $(this)
       .find(".content-right-detail .area-btn-detail .sub-btn")
-      .text(data[index % data.length].sub_btn);
+      .text(dataForItem.sub_btn);
 
     const degCircle =
       degCorner * -1 - currentAngle + degCorner - index * degCorner;
@@ -620,7 +665,101 @@ async function generateData(data) {
   handleSetIndexItemDisplay();
 }
 
-function generateCircleContent(windowWidth) {
+function updateData() {
+  // let listItemDisplay = "";
+
+  // data.forEach(function (value, index) {
+  //   listItemDisplay += `<li class="item-display ${
+  //     index + 1 == indexData + 1 ? "active" : ""
+  //   }" index-item="${index + 1}"></li>`;
+  // });
+
+  $(".item-display").remove();
+
+  // $("#btns-change-content .list-item-display").append(listItemDisplay);
+
+  // $(`div[id=child-${mainItem}]`).addClass("active");
+  // $(
+  //   `div[sidebar-index=item-${
+  //     mainItem % data.length == 0 ? data.length : mainItem % data.length
+  //   }`
+  // ).addClass("active");
+
+  $("#circle-bg .child").each(function (index, value) {
+    const indexData = $(this).attr("index-data-display");
+
+    if (indexData == "") {
+      return;
+    }
+    const dataForItem = data[indexData];
+
+    $(this)
+      .find(".bg-item")
+      // .css({ background: `${data[index % data.length].bg_color}` });
+      .css({ background: `${dataForItem.bg_color}` });
+    $(this)
+      .find(".bg-item .store-name p")
+      // .text(data[index % data.length].store_name);
+      .text(dataForItem.store_name);
+  });
+
+  $("#parent .child").each(function (index, value) {
+    const indexData = $(this).attr("index-data-display");
+
+    if (indexData == "") {
+      return;
+    }
+
+    let title = "";
+    let titleSp = "";
+    const dataForItem = data[indexData];
+
+    dataForItem.content_left_sp.forEach(function (valueSp, i) {
+      titleSp += `<p class="append">${valueSp}</p>`;
+    });
+
+    dataForItem.content.title.forEach(function (value, i) {
+      title += `<p class="append">${value}</p>`;
+    });
+
+    $(this).find(".image img").attr("src", dataForItem.img);
+
+    $(this).find(".append").remove();
+    $(this).find(".content-right-detail .title").append(title);
+    $(this).find(".content-left .display-sp").append(titleSp);
+    $(this)
+      .find(".content-left .display-pc p ")
+      .text(dataForItem.content_left_pc);
+
+    $(this)
+      .find(".content-right-detail .display-pc .describe-title p")
+      .text(dataForItem.content.describe_title);
+    $(this)
+      .find(".content-right-detail .display-sp .describe-title p")
+      .text(dataForItem.content.describe_title_sp);
+    $(this)
+      .find(".content-right-detail .describe p")
+      .text(dataForItem.content.describe);
+    $(this)
+      .find(".content-right-detail .see-more .content-btn")
+      .text(dataForItem.text_btn_see_more);
+    $(this)
+      .find(".content-right-detail .btn-detail-info .content-btn")
+      .text(dataForItem.text_btn);
+    $(this)
+      .find(".content-right-detail .area-btn-detail .sub-btn")
+      .text(dataForItem.sub_btn);
+
+    const degCircle =
+      degCorner * -1 - currentAngle + degCorner - index * degCorner;
+
+    handleContentTextLeft(index);
+  });
+
+  handleSetIndexItemDisplay();
+}
+
+async function generateCircleContent(windowWidth) {
   if (windowWidth > 992) {
     $("#parent .child").each(function (index, item) {
       const R = $("#parent").css("width").slice(0, -2) / 16 / 2;
@@ -717,7 +856,7 @@ function generateCircleContent(windowWidth) {
     });
 
     $("#circle-bg .child").each(function (index, item) {
-      const R = $("#parent").css("width").slice(0, -2) / 16 / 2;
+      const R = $("#circle-bg").css("width").slice(0, -2) / 16 / 2;
       const heightSubChildItem =
         $($("#circle-bg .child:not(.active)")[0]).css("height").slice(0, -2) /
         16;
@@ -969,11 +1108,33 @@ async function generateContent() {
 
   $("#parent").append(circleContent);
   $("#circle-bg").append(circleBackground);
+  $(`div[id=child-bg-${mainItem}]`).addClass("active");
 
-  generateData(data).then(generateCircleContent());
+  handleSetIndexItemDisplay();
+
+  generateData(data);
+  generateCircleContent(windowWidth);
 }
 
 generateContent();
-generateCircleContent(windowWidth);
+
+$(document)
+  .find("#parent .src-img")
+  .on("click", function () {
+    parseInt($(`#child-${mainItem}`).attr("id").slice(6));
+    const itemSelected = $(this).closest(".child");
+    const classItemSelected = itemSelected.attr("class");
+    if (!classItemSelected.includes("child")) {
+      return;
+    }
+
+    const isDirectionUp = itemSelected.attr("is-direction-up");
+
+    if (parseFloat(isDirectionUp)) {
+      handleClickBtnNext();
+    } else {
+      handleClickBtnPrev();
+    }
+  });
 
 // Page Demo End

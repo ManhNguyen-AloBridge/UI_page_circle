@@ -87,7 +87,7 @@ $data = [
                 <span>採用について</span>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
               <a class="nav-link" href="#">CONTACT
                 <span>お問い合わせ</span>
               </a>

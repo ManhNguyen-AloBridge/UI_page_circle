@@ -710,11 +710,19 @@ html {
   color: rgba(0, 0, 0, .9) !important;
 }
 
-.header .navbar-nav .nav-item:last-child {
+.header .navbar-nav .nav-item.active {
   background: rgb(67, 67, 67);
 }
 
-.header .navbar-nav .nav-item:last-child a {
+.header .navbar-nav .nav-item.active a {
+  color: white !important;
+}
+
+.header .navbar-nav .nav-item:hover {
+  background: rgb(67, 67, 67);
+}
+
+.header .navbar-nav .nav-item:hover a {
   color: white !important;
 }
 
@@ -723,8 +731,8 @@ html {
 }
 
 .sidebar {
-  width: 70px;
-  background: white;
+  width: 5vw;
+  background: transparent;
   height: 100vh;
   display: flex;
   flex-flow: column;
@@ -881,12 +889,12 @@ html {
 #circle-bg .child .bg-item {
   content: "";
   opacity: 0.2;
-  /* width: 115%; */
-  width: 89vw;
+  /* width: 89vw; */
+  width: 91vw;
   height: 75vh;
   position: absolute;
-  /* margin-left: -27rem; */
-  left: -25vw;
+  /* left: -25vw; */
+  left: -27vw;
   opacity: 0.2;
   filter: blur(3px);
   border-radius: 30px;
@@ -970,6 +978,7 @@ html {
   padding: 7px 40px;
   background: transparent;
   position: relative;
+  margin-left: 1px;
 }
 
 .btn-detail-info .special-icon {
@@ -1013,6 +1022,7 @@ html {
 
 #parent .child .content-right-detail .btns-action {
   padding: 15px 0 3px 0;
+  margin-left: 1px;
 }
 
 #parent .child .content-right-detail .btns-action button,
@@ -1113,16 +1123,24 @@ html {
   transition: all 0.3s;
 }
 
-/* #child img {
-  max-width: 100%;
-  border-radius: 50%;
-} */
-
 #parent .child .bg-image {
   left: -8.5rem;
   position: absolute;
   top: -7.6rem;
   z-index: -1;
+}
+
+#parent .child:not(.active) .bg-image {
+  transform: scale(0.5);
+  top: -2rem;
+  left: -4.4rem;
+  opacity: 0;
+  transition: all 0.6s;
+}
+
+#parent .child.active .bg-image {
+  opacity: 1;
+  transition: all 0.6s;
 }
 
 #parent .child .bg-image .circle {
@@ -1186,8 +1204,8 @@ html {
   background: blanchedalmond;
   border-radius: 50%;
   margin-left: -50%;
-  /* box-shadow: 5px 1px 16px -3px; */
   transition: all 0.7s;
+  cursor: pointer;
 }
 
 .footer {
@@ -1258,12 +1276,17 @@ html {
 }
 
 @media only screen and (max-width: 1600px) {
-  .header .nav-item {
+  .header .navbar-nav .nav-item {
     padding: 15px 15px;
   }
 
   #content-landing-page {
     left: -8%;
+  }
+
+  .page-demo .sidebar {
+    width: 6vw;
+
   }
 
   #circle-bg .child .bg-item .store-name p {
@@ -1285,8 +1308,14 @@ html {
   }
 
   #circle-bg .child .bg-item {
-    left: -35vw;
+    left: -36vw;
+    width: 89vw;
   }
+
+  #parent .child:not(.active) .bg-image {
+    top: -1.5rem;
+    left: -3.5rem;
+}
 
   #parent .child.active .src-img {
     width: 21.5rem;
@@ -1419,8 +1448,16 @@ html {
 
   #parent .child .bg-image {
     left: -5.5rem;
-    /* top: 5.3rem; */
     top: -10.2rem;
+  }
+
+  #parent .child:not(.active) .bg-image {
+    top: 0;
+    left: -2.3rem;
+}
+
+  #circle-bg .child .bg-item {
+    left: -34vw;
   }
 
   #parent .child .content-right-detail {
@@ -1507,9 +1544,6 @@ html {
     border-bottom: solid 1px #3a3a3a;
   }
 
-  .header .nav-menu>.nav-item:last-child {
-    /* border-bottom: unset; */
-  }
 
   .header .nav-menu>.nav-item a {
     color: #1d1d1d;
@@ -1560,6 +1594,10 @@ html {
     /* top: 8.6rem; */
     top: -5.4rem;
   }
+
+  #parent .child:not(.active) .bg-image {
+    top: -1.5rem;
+}
 
   #parent .child .bg-image .child-circle {
     width: 18.4rem;
@@ -1829,6 +1867,11 @@ html {
     top: -5.7rem;
   }
 
+  #parent .child:not(.active) .bg-image {
+    top: -1.3rem;
+    left: -1.1rem;
+}
+
   #parent .child.active .src-img {
     margin-top: -4.7rem;
   }
@@ -1922,10 +1965,13 @@ html {
 
   #parent .child .bg-image {
     left: -2.2rem;
-    /* top: 11.9rem; */
     top: -4rem;
-
   }
+
+  #parent .child:not(.active) .bg-image {
+    top: -0.7rem;
+    left: -0.9rem;
+}
 
   #parent .child.active .src-img {
     margin-top: -3rem;
@@ -1943,18 +1989,18 @@ html {
 @media only screen and (max-width: 375px) {
   .header .logo-text p {
     font-size: 9px;
-}
+  }
 
   #parent .child.active .content-left {
     margin-top: -35vh;
-}
+  }
 
-#parent .child .content-right-detail .title p {
-  letter-spacing: 12px;
-}
+  #parent .child .content-right-detail .title p {
+    letter-spacing: 12px;
+  }
 
-.footer {
-  right: -4.15rem;
-  font-size: 11px;
-}
+  .footer {
+    right: -4.15rem;
+    font-size: 11px;
+  }
 }
